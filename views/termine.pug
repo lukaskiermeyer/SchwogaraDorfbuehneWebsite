@@ -1,0 +1,17 @@
+extends layout
+block content
+    section.termine#termine
+        h1 Kommende Veranstaltungen
+
+        .termine-container
+            each termin in termine
+                .termin-card
+                    h2= termin.titel
+                    p.date Datum: #{termin.datum}
+                    p.ort Ort: #{termin.ort}
+                    p.beschreibung= termin.beschreibung
+
+
+
+
+

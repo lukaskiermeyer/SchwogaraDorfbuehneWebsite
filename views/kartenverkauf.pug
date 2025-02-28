@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    section.karten
+        h1 Kartenverkauf
+
+        .events-container
+            each event in events
+                .event-card
+                    h2= event.titel
+                    p.datum Datum: #{event.datum}
+                    p.ort Ort: #{event.ort}
+                    p.beschreibung= event.beschreibung
+
+                    if event.ticketsOnline
+                        a(href=event.ticketLink, class="btn btn-primary") Tickets online kaufen
+                    else
+                        h4 Tickets sind vor Ort erhältlich

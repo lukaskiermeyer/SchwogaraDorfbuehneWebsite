@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'Bavarian';
+    src: url('/fonts/BAYERN.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Erwachsene Schreibschrift */
+@font-face {
+    font-family: 'BonheurRoyale';
+    src: url('/fonts/BonheurRoyale-Regular.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Minimalistische Handschrift wie Gregs Tagebuch */
+@font-face {
+    font-family: 'Mynerve';
+    src: url('/fonts/Mynerve-Regular.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+ /* Verzierte Schreibschrift*/
+@font-face {
+    font-family: 'TwinkleStar';
+    src: url('/fonts/TwinkleStar-Regular.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Hauptschrift */
+@font-face {
+    font-family: 'FunnelDisplay';
+    src: url('/fonts/FunnelDisplay.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

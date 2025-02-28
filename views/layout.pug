@@ -1,0 +1,35 @@
+// views/layout.pug
+doctype html
+html(lang="de")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        title #{title} | Schwoagara Dorfbühne
+        link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/fonts.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Bayreuth+Sans&display=swap")
+    body
+        header.navbar
+            .navbar-brand
+                p Schwoagara Dorfbühne
+            ul.nav-menu
+                li
+                    a(href="/") Home
+                li
+                    a(href="/termine") Termine
+                li
+                    a(href="/karten") Kartenverkauf
+                li
+                    a(href="/verein") Über uns
+                li
+                    a(href="/links") Links
+
+
+        main
+            .container
+                block content
+
+        footer.footer
+            p © #{new Date().getFullYear()} Schwoagara Dorfbühne – Alle Rechte vorbehalten
+
+        script(src="/js/main.js")
