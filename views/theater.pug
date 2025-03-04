@@ -1,0 +1,49 @@
+extends layout
+
+block content
+    .theater-container
+        h1 Erwachsenentheater Archiv
+        p Hier findest du eine Übersicht über alle bisherigen Aufführungen.
+
+        .theater-grid
+            each theater in theaterstuecke
+                .theater-card(data-id=theater.id)
+                    img(src=`/theaterbilder/${theater.vorschaubild}`, alt=theater.titel)
+                    h3= theater.titel
+
+    // Modal für Details
+    .modal#theater-modal
+        .modal-content
+            span.modal-close &times;
+            h2#modal-title
+            p#modal-description
+            .modal-gallery#modal-gallery
+
+    script.
+        document.querySelectorAll(".theater-card").forEach(card => {
+            card.addEventListener("click", function() {
+                let theaterId = this.dataset.id;
+
+                fetch(`/erwachsenentheater/${theaterId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById("modal-title").innerText = data.titel;
+                        document.getElementById("modal-description").innerText = data.beschreibung;
+
+                        let gallery = document.getElementById("modal-gallery");
+                        gallery.innerHTML = "";
+                        data.bilder.forEach(bild => {
+                            let img = document.createElement("img");
+                            img.src = `/theaterbilder/${bild}`;
+                            img.alt = data.titel;
+                            gallery.appendChild(img);
+                        });
+
+                        document.getElementById("theater-modal").style.display = "block";
+                    });
+            });
+        });
+
+        document.querySelector(".modal-close").addEventListener("click", function() {
+            document.getElementById("theater-modal").style.display = "none";
+        });

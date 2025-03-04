@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const {readdirSync} = require("fs");
 
 // Pug als Template Engine setzen
 app.set('view engine', 'pug');
@@ -66,11 +67,50 @@ app.get('/verein', (req, res) => {
     res.render('verein');
 });
 
+// Statische Dateien bereitstellen
+app.use('/kulturboten', express.static(path.join(__dirname, 'public/kulturboten')));
+
+function getKulturboten() {
+    const dir = path.join(__dirname, 'public/kulturboten');
+    try {
+        return readdirSync(dir)
+            .filter(file => file.endsWith('.pdf'))
+            .sort((a, b) => parseInt(b) - parseInt(a)); // Nach Nummer absteigend sortieren
+    } catch (err) {
+        console.error("Fehler beim Lesen des Verzeichnisses:", err);
+        return [];
+    }
+}
 
 app.get('/kulturbote', (req, res) => {
-    const kulturboten = Array.from({ length: 22 }, (_, i) => `kulturbote${22 - i}.pdf`);
-
+    const kulturboten = getKulturboten()
     res.render('kulturbote', {kulturboten});
+});
+
+
+app.get('/theater', (req, res) => {
+    const theaterstuecke = [
+        { id: 1, titel: "Die lustigen Bauern", vorschaubild: "lustige-bauern.jpg" },
+        { id: 2, titel: "Der Brandner Kaspar", vorschaubild: "brandner-kaspar.jpg" }
+    ];
+    res.render('theater', { theaterstuecke });
+});
+
+app.get('/theater/:id', (req, res) => {
+    const theaterDetails = {
+        1: {
+            titel: "Die lustigen Bauern",
+            beschreibung: "Eine heitere Komödie über das Landleben.",
+            bilder: ["szene1.jpg", "szene2.jpg"]
+        },
+        2: {
+            titel: "Der Brandner Kaspar",
+            beschreibung: "Eine humorvolle Geschichte über das Leben nach dem Tod.",
+            bilder: ["szene1.jpg", "szene2.jpg"]
+        }
+    };
+
+    res.json(theaterDetails[req.params.id]);
 });
 
 // Weitere Routen für andere Seiten (Kartenvorverkauf, Verein, etc.) können hier hinzugefügt werden.

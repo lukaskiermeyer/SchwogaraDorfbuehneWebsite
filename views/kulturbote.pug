@@ -5,18 +5,31 @@ block content
         h1 Kulturbote Archiv
         p Wählen Sie einen Kulturboten aus, um ihn direkt hier anzusehen.
 
-        select#kulturbote-selector
-            option(value="") -- Wählen Sie eine Ausgabe --
+        .kulturbote-selection
             each pdf in kulturboten
-                option(value=`/pdf/${pdf}`) #{pdf.replace('.pdf', '')}
+                .kulturbote-card(data-src=`/kulturboten/${pdf}`)
+                    span #{pdf.replace('.pdf', '')}
 
         .pdf-viewer
-            iframe#pdf-frame(src=`/pdf/${kulturboten[0]}`, width="100%", height="600px")
+            if kulturboten.length > 0
+                iframe#pdf-frame(src=`/kulturboten/${kulturboten[0]}`, width="100%", height="85vh")
+            else
+                p Keine Kulturboten verfügbar.
 
     script.
-        document.getElementById("kulturbote-selector").addEventListener("change", function() {
-            let pdfFrame = document.getElementById("pdf-frame");
-            if (this.value) {
-                pdfFrame.src = this.value;
-            }
+        document.querySelectorAll(".kulturbote-card").forEach(card => {
+            card.addEventListener("click", function() {
+                let pdfFrame = document.getElementById("pdf-frame");
+                pdfFrame.src = this.dataset.src;
+
+                // Entferne Markierung von allen Karten
+                document.querySelectorAll(".kulturbote-card").forEach(c => c.classList.remove("active"));
+
+                // Markiere die geklickte Karte
+                this.classList.add("active");
+            });
         });
+
+        // Standardmäßig die erste Karte als aktiv setzen
+        let firstCard = document.querySelector(".kulturbote-card");
+        if (firstCard) firstCard.classList.add("active");
