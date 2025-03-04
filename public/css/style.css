@@ -369,56 +369,128 @@ html, body{
 }
 
 .verein-info {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem; /* Damit es auf kleineren Bildschirmen nicht zu eng wird */
 }
 
 .verein-info h2 {
     color: var(--primary-color);
     margin-bottom: 1rem;
+    font-family: Bavarian, sans-serif;
+    font-size: 2.5rem;
+}
+
+.verein-info h3 {
+    color: var(--black);
+    margin-bottom: 1rem;
+    font-family: BonheurRoyale, sans-serif;
+    margin-top: 15px;
+    font-size: 2rem;
 }
 
 .verein-info p {
-    font-size: 1.2rem;
-    color: var(--black);
+    font-size: 1rem;
+    color: var(--light-gray);
     line-height: 1.6;
 }
 
-.aufnahmeantrag,
-.satzung {
-    margin-top: 3rem;
+/* Container für Karten */
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
 }
 
-.aufnahmeantrag h2,
-.satzung h2 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.aufnahmeantrag a,
-.satzung a {
+/* Option-Karten */
+.option-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Inhalte gleichmäßig verteilen */
+    text-align: center;
+    background-color: #fdfdfd;
+    width: 280px; /* Alle Boxen gleich breit */
+    height: 200px; /* Alle Boxen gleich hoch */
+    padding: 1.5rem;
     text-decoration: none;
-    padding: 1rem 2rem;
-    background-color: var(--brown);
-    color: var(--background-color);
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    transition: transform 0.3s ease, border 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border: 3px solid transparent;
+}
+
+/* Coole Border-Animation */
+.option-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    border: 3px solid var(--light-yellow);
+    transition: border-color 0.4s ease-in-out;
+}
+
+.option-card:hover::before {
+    border-color: var(--primary-color);
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon-Styling */
+.option-card img {
+    max-width: 120px;
+    max-height: 120px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+/* Titel */
+.option-card h3 {
+    font-size: 1.2rem;
+    color: var(--black);
+    margin-bottom: 0;
+}
+
+
+/* Download-Buttons */
+.downloads{
+    margin-top: 20px;
+}
+
+.download-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gold);
+    color: var(--black);
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1rem;
     font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--black);
 }
 
-.aufnahmeantrag a:hover,
-.satzung a:hover {
+.btn-download:hover {
     background-color: var(--primary-color);
+    color: var(--background-color);
+    border: 2px solid var(--black);
 }
-
-
-
-
-
-
-
-
 
 
 

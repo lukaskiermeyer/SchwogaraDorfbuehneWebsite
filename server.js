@@ -67,6 +67,12 @@ app.get('/verein', (req, res) => {
 });
 
 
+app.get('/kulturbote', (req, res) => {
+    const kulturboten = Array.from({ length: 22 }, (_, i) => `kulturbote${22 - i}.pdf`);
+
+    res.render('kulturbote', {kulturboten});
+});
+
 // Weitere Routen für andere Seiten (Kartenvorverkauf, Verein, etc.) können hier hinzugefügt werden.
 
 const PORT = process.env.PORT || 3000;

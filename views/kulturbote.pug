@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .kulturbote-container
+        h1 Kulturbote Archiv
+        p Wählen Sie einen Kulturboten aus, um ihn direkt hier anzusehen.
+
+        select#kulturbote-selector
+            option(value="") -- Wählen Sie eine Ausgabe --
+            each pdf in kulturboten
+                option(value=`/pdf/${pdf}`) #{pdf.replace('.pdf', '')}
+
+        .pdf-viewer
+            iframe#pdf-frame(src=`/pdf/${kulturboten[0]}`, width="100%", height="600px")
+
+    script.
+        document.getElementById("kulturbote-selector").addEventListener("change", function() {
+            let pdfFrame = document.getElementById("pdf-frame");
+            if (this.value) {
+                pdfFrame.src = this.value;
+            }
+        });

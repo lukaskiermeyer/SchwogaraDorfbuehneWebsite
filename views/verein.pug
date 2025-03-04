@@ -1,21 +1,45 @@
-
 extends layout
 
 block content
     section.verein
         h1 Über uns
 
+        .options-container
+            a.option-card(href="/kulturbote")
+                img(src="/images/IconKulturbote.svg", alt="Kulturbote")
+                h3 Kulturbote
+
+            a.option-card(href="/theater")
+                img(src="/images/IconBühne.svg", alt="Erwachsenentheater")
+                h3 Erwachsenentheater
+
+            a.option-card(href="/jugendtheater")
+                img(src="/images/IconKinder.svg", alt="Jugendtheater")
+                h3 Jugendtheater
+
+            a.option-card(href="/starkbierfest")
+                img(src="/images/IconBier.svg", alt="Starkbierfest")
+                h3 Starkbierfest
+
+            a.option-card(href="/bilderarchiv")
+                img(src="/images/IconBilderarchiv.svg", alt="Bilderarchiv")
+                h3 Bilderarchiv
+
         .verein-info
             h2 Unsere Geschichte
-            p Wir sind die Schwoagara Dorfbühne, ein Kulturverein, der sich der Förderung des Theaters und der kulturellen Veranstaltungen in unserer Region verschrieben hat. Unser Verein wurde 1998 gegründet und hat sich seitdem zu einem wichtigen kulturellen Treffpunkt entwickelt.
-            p Mit viel Leidenschaft und Engagement bieten wir unseren Mitgliedern und Gästen ein abwechslungsreiches Programm.
+            h3 Gründung:
+            p Im Jahr 2000 wurde die Schwoagara Dorfbühne Kunst und Kultur e.V. gegründet – aus der Leidenschaft heraus, die lange Theatertradition des Burschenvereins fortzuführen. Viele unserer Mitglieder haben bereits seit Jahrzehnten das kulturelle Leben in der Region mitgeprägt.
+            h3 Anfänge:
+            p Die Wurzeln reichen zurück bis 1947, als der Burschenverein erste Theaterstücke inszenierte. Unter der Leitung von Franz Widmann (50er & 60er Jahre), Emil Hauber sen. (1978–90), Christian Hauber (1991–98) und Günter Schweiger (1999) entstanden unvergessliche Aufführungen. Besonders das Stück „Die goldene Gans“ von 1999 bleibt als großer Erfolg in Erinnerung.
+            h3 Entwicklungen bis heute:
+            p Nach der Vereinsgründung erweiterte sich unser Fokus: Neben Theaterstücken organisieren wir traditions- und brauchtumserhaltende Veranstaltungen, allen voran das überregional bekannte Grenzland-Starkbierfest, das seit 1997 stetig wächst – sowohl in Beliebtheit als auch an politischer Prominenz.
+            h3 Engagement & Zukunft:
+            p Unsere ca. 220 Mitglieder engagieren sich aktiv für die Förderung von Kunst, Kultur und Gemeinschaft. Mit der Unterstützung der Appel-Seitz-Stiftung bieten wir eine Plattform für Vereine und Interessensgruppen in der Region.
+            p Unser Ziel ist es, Kultur lebendig zu halten – für Jung und Alt. Wir veranstalten regelmäßig das Starkbierfest sowie unser Herbsttheater. Jährlich wechselnd bringen wir entweder ein Märchen oder ein bayerisches Stück auf die Bühne.
+            p Möchtest du Teil unserer Theaterfamilie werden – als Schauspieler:in, Helfer:in oder Unterstützer:in? Dann freuen wir uns über deine Nachricht!
 
-        .aufnahmeantrag
-            h2 Aufnahmeantrag
-            p Wenn du Interesse hast, Mitglied bei uns zu werden, kannst du den Aufnahmeantrag herunterladen und ausgefüllt bei uns einreichen.
-            a(href="/docs/aufnahmeantrag.pdf", class="btn btn-secondary") Aufnahmeantrag herunterladen
-
-        .satzung
-            h2 Satzung
-            p Unsere Satzung enthält die grundlegenden Regeln und Vorschriften für die Mitgliedschaft und die Arbeit des Vereins.
-            a(href="/docs/satzung.pdf", class="btn btn-secondary") Satzung herunterladen
+        .downloads
+            h2 Wichtige Dokumente
+            .download-container
+                a(href="/docs/aufnahmeantrag.pdf", class="btn-download") 📄 Aufnahmeantrag herunterladen
+                a(href="/docs/satzung.pdf", class="btn-download") 📜 Satzung herunterladen
