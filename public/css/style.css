@@ -155,6 +155,11 @@ html, body{
     color: var(--black);
 }
 
+.services a{
+    color: var(--black);
+    text-decoration: none;
+}
+
 .services-grid {
     display: flex;
     flex-wrap: wrap;
@@ -177,8 +182,8 @@ html, body{
 }
 
 .service img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     margin-bottom: 1rem;
 }
 
@@ -546,62 +551,300 @@ html, body{
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    padding: 30px;
 }
 
 .theater-card {
+    position: relative;
     width: 250px;
-    cursor: pointer;
-    text-align: center;
-    background: #fdfdfd;
-    padding: 15px;
+    height: 350px;
+    text-decoration: none;
+    color: #ffffff;
     border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.3s ease,
+    color 0.3s ease;
+    border: 1px solid var(--black);
+}
+
+.theater-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, rgba(255, 255, 255, 0) 80%);
+    transition: background 0.3s ease;
 }
 
 .theater-card img {
     width: 100%;
-    border-radius: 8px;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+.theater-card h3 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .theater-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.theater-card:hover::before {
+    background: rgba(0, 0, 0, 0); /* Farbverlauf verschwindet */
+}
+
+.theater-card:hover h3 {
+    background: rgba(255, 255, 255, 0.8); /* Hintergrund heller */
+    color: #000; /* Schriftfarbe schwarz */
+}
+
+
+
+.theater-detail-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.theater-description {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.carousel-container {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    width: 100%;
+    display: none;
+    border-radius: 8px;
+}
+
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+}
+
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
+
+.carousel-prev:hover, .carousel-next:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+
+
+
+
+/* Kindertheater Anpassungen - Analog zum Erwachsenentheater */
+
+
+.jugendtheater-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 30px;
+}
+
+.jugendtheater-card {
+    position: relative;
+    width: 250px;
+    height: 350px;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.3s ease,
+    color 0.3s ease;
+    border: 1px solid var(--black);
+}
+
+.jugendtheater-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, rgba(255, 255, 255, 0) 80%);
+    transition: background 0.3s ease;
+}
+
+.jugendtheater-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+.jugendtheater-card h3 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.jugendtheater-card:hover {
+    transform: scale(1.05) rotate(-2deg);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.jugendtheater-card:hover::before {
+    background: rgba(0, 0, 0, 0); /* Farbverlauf verschwindet */
+}
+
+.jugendtheater-card:hover h3 {
+    background: rgba(255, 255, 255, 0.8); /* Hintergrund heller */
+    color: #000; /* Schriftfarbe schwarz */
+}
+
+
+
+
+
+
+.starkbier-container {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #f9f9f9;
+}
+
+.starkbier-container h1 {
+    font-family: Bavarian, sans-serif;
+    font-size: 48px;
+    color: var(--black);
+    text-shadow: 2px 2px #a8dadc;
+}
+
+.starkbier-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 30px;
+}
+
+.starkbier-card {
+    position: relative;
+    width: 280px;
+    height: 350px;
+    text-decoration: none;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #a8dadc;
+}
+
+.starkbier-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+.starkbier-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+}
+
+.starkbier-info h2 {
+    font-family: Bavarian, sans-serif;
+    font-size: 24px;
+}
+
+.starkbier-info p {
+    font-size: 14px;
+}
+
+/* Hover Effekt */
+.starkbier-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
+.starkbier-card:hover .starkbier-info {
+    background: #1d3557;
+    opacity: 0.9;
+
 }
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 60%;
-    max-height: 80vh;
-    overflow-y: auto;
+/* Detailseite */
+.starkbier-detail {
     text-align: center;
+    padding: 4rem 2rem;
 }
 
-.modal-gallery img {
-    width: 100%;
-    margin-top: 10px;
+.starkbier-detail h1 {
+    font-family: Bavarian, sans-serif;
+    font-size: 42px;
+    color: #1d3557;
+}
+
+.starkbier-detail img {
+    width: 60%;
+    max-width: 800px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.starkbier-detail p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #1d3557;
+    color: white;
+    text-decoration: none;
     border-radius: 5px;
+    transition: background 0.3s;
 }
 
-.modal-close {
-    cursor: pointer;
-    font-size: 24px;
-    float: right;
+.back-button:hover {
+    background: #457b9d;
 }
+
 
 
 
@@ -619,3 +862,5 @@ html, body{
     font-size: 0.9rem;
     margin-top: auto; /* Wichtig, damit der Footer immer am unteren Rand ist */
 }
+
+

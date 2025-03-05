@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    .jugendtheater-container
+        h1 Kindertheater Archiv
+        p Entdecke unsere zauberhaften Aufführungen für Kinder.
+
+        .jugendtheater-grid
+            each theater in jugendtheaterStuecke
+                a.jugendtheater-card(data-id=theater.id, href=`/jugendtheater/${theater.id}`)
+                    img(src=`/jugendtheaterbilder/${theater.bilder[0]}`, alt=theater.titel)
+                    h3= theater.titel

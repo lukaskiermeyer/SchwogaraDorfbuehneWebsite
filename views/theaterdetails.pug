@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    .theater-detail-container
+        h1= theater.titel
+        h3 #{theater.jahr}
+
+
+        .carousel-container
+            button.carousel-prev &lt;
+            .carousel
+                each bild in theater.bilder
+                    img.carousel-slide(src=`/theaterbilder/${bild}`, alt=theater.titel)
+            button.carousel-next &gt;
+
+        .theater-description
+            p= theater.beschreibung
+
+    script.
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                slide.style.display = index === currentIndex ? 'block' : 'none';
+            });
+        }
+
+        document.querySelector('.carousel-prev').addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+            updateCarousel();
+        });
+
+        document.querySelector('.carousel-next').addEventListener('click', () => {
+            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+            updateCarousel();
+        });
+
+        updateCarousel();

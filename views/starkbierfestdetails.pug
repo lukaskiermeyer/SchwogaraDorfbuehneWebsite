@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    .starkbier-detail
+        h1 Starkbierfest #{fest.jahr}
+
+        img(src=fest.bild, alt=`Starkbierfest ${fest.jahr}`)
+
+        p= fest.beschreibung
+
+        a.back-button(href="/starkbierfest") Zurück zur Übersicht

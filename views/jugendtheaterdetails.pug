@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    .kindertheater-detail-container
+        h1= theater.titel
+        p Jahr: #{theater.jahr}
+
+        .carousel-container
+            button.carousel-prev &lt;
+            .carousel
+                each bild in theater.bilder
+                    img.carousel-slide(src=`/jugendtheaterbilder/${bild}`, alt=theater.titel)
+            button.carousel-next &gt;
+
+        .theater-description
+            p= theater.beschreibung
+
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const prevButton = document.querySelector('.carousel-prev');
+            const nextButton = document.querySelector('.carousel-next');
+            let currentIndex = 0;
+
+            function updateCarousel() {
+                slides.forEach((slide, index) => {
+                    slide.style.display = index === currentIndex ? 'block' : 'none';
+                });
+            }
+
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+                updateCarousel();
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+                updateCarousel();
+            });
+
+            updateCarousel();
+        });
