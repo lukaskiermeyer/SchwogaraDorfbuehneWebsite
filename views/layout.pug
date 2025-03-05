@@ -1,4 +1,3 @@
-// views/layout.pug
 doctype html
 html(lang="de")
     head
@@ -10,8 +9,12 @@ html(lang="de")
         link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Bayreuth+Sans&display=swap")
     body
         header.navbar
-            .navbar-brand
+            a.navbar-brand(href="/")
                 p Schwoagara Dorfbühne
+            div.burger-menu(onclick="toggleMenu()")
+                span
+                span
+                span
             ul.nav-menu
                 li
                     a(href="/") Home
@@ -23,7 +26,6 @@ html(lang="de")
                     a(href="/verein") Über uns
                 li
                     a(href="/links") Links
-
 
         main
             .container

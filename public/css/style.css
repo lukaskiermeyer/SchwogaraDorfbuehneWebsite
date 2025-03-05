@@ -45,6 +45,10 @@ html, body{
     padding: 1rem;
 }
 
+.navbar-brand{
+    text-decoration: none;
+}
+
 .navbar-brand p {
     color: var(--gold);
     font-size: 1.5rem;
@@ -863,4 +867,54 @@ html, body{
     margin-top: auto; /* Wichtig, damit der Footer immer am unteren Rand ist */
 }
 
+/*Responsiveness*/
+/* Burger Menü */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.burger-menu span {
+    display: block;
+    width: 30px;
+    height: 4px;
+    background: var(--background-color);
+    border-radius: 2px;
+    transition: 0.3s;
+
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    .burger-menu {
+        display: flex;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        background: var(--black);
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 10px 0;
+        z-index: 2;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu li {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .nav-menu li a {
+        font-size: 1.2rem;
+    }
+}
 
