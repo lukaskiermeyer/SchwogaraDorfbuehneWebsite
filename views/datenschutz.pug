@@ -1,0 +1,100 @@
+extends layout
+
+block content
+    .impressum-container
+        h1 Datenschutzerklärung der Schwoagara Dorfbühne Kunst und Kultur e.V.
+
+        .warning
+            h3 Wichtiger Hinweis:
+            p Diese Datenschutzerklärung entspricht den Anforderungen der DSGVO und des TTDSG. Bitte überprüfen Sie besonders rot markierte Abschnitte und passen Sie diese an Ihre tatsächliche Nutzung an.
+
+        section.section
+            h2 1. Verantwortlicher
+            p Schwoagara Dorfbühne Kunst und Kultur e.V.
+            p Mühlweg 5 | 93333 Schwaig
+            p Tel.: 08402 1383
+            p E-Mail:
+                a(href="mailto:kontakt@dorfbuehne-schwaig.de") kontakt@dorfbuehne-schwaig.de
+
+        section.section
+            h2 2. Grundlagen der Datenverarbeitung
+            p Wir verarbeiten personenbezogene Daten auf Grundlage von:
+            ul
+                li Art. 6 Abs. 1 lit. a DSGVO (Einwilligung)
+                li Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung)
+                li Art. 6 Abs. 1 lit. f DSGVO (Berechtigte Interessen)
+
+        section.section.inactive-service
+            h2 3. Cookies 🔴
+            p Wir verwenden folgende Cookie-Typen:
+            ul
+                li Notwendige Cookies (Session-Cookies)
+                li Leistungs-Cookies (Google Analytics - aktuell inaktiv)
+                li Marketing-Cookies (Facebook Pixel - aktuell inaktiv)
+            a.btn-download(href="#cookie-einstellungen") Cookie-Einstellungen anpassen
+
+        section.section
+            h2 4. Betroffenenrechte
+            p Sie haben laut DSGVO das Recht auf:
+            ul
+                li Auskunft (Art. 15 DSGVO)
+                li Berichtigung (Art. 16 DSGVO)
+                li Löschung (Art. 17 DSGVO)
+                li Einschränkung der Verarbeitung (Art. 18 DSGVO)
+                li Datenübertragbarkeit (Art. 20 DSGVO)
+                li Widerspruch (Art. 21 DSGVO)
+
+        section.section
+            h2 5. Externe Dienstleister
+            .links-container
+                .link-card
+                    h3 Webhosting
+                    p Hetzner Online GmbH (Deutschland)
+
+                .link-card.inactive-service
+                    h3 Google Analytics 🔴
+                    p Aktuell nicht aktiv
+
+                .link-card
+                    h3 Fastcounter
+                    p
+                        a(href="https://www.fastcounter.de/datenschutz" target="_blank") Datenschutzerklärung
+
+        section.section
+            h2 6. Datenweitergabe an Dritte
+            p Eine Weitergabe erfolgt nur an:
+            ul
+                li Auftragsverarbeiter (Art. 28 DSGVO)
+                li Zahlungsdienstleister (bei Ticketkäufen)
+                li Behörden bei rechtlicher Verpflichtung
+
+        section.section
+            h2 7. Kontakt zum Datenschutzbeauftragten
+            p Roland Bauer (1. Vorstand)
+            p Turnerweg 11 | 93333 Neustadt/Donau-Schwaig
+            p Telefon: 08402 1377
+            p E-Mail:
+                a(href="mailto:bauer.16@t-online.de") bauer.16@t-online.de
+
+        section#cookie-einstellungen.section
+            h2 Cookie-Einstellungen
+            .cookie-consent
+                form
+                    label.checkbox-container
+                        input(type="checkbox" disabled checked)
+                        span.checkbox-label Notwendige Cookies
+                    label.checkbox-container
+                        input(type="checkbox")
+                        span.checkbox-label Statistik-Cookies
+                    label.checkbox-container
+                        input(type="checkbox")
+                        span.checkbox-label Marketing-Cookies
+                    button.btn-primary(type="submit") Einstellungen speichern
+
+        .warning
+            h3 Implementierungshinweise:
+            ol
+                li Rot markierte Abschnitte (🔴) überprüfen/anpassen
+                li Cookie-Consent-Tool (z.B. Cookiebot) integrieren
+                li Externe Links zu Dienstleistern aktualisieren
+                li Regelmäßige Rechtsüberprüfung durchführen

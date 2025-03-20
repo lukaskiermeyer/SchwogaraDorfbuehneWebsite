@@ -2,19 +2,28 @@ extends layout
 
 block content
     .theater-detail-container
-        h1= theater.titel
-        h3 #{theater.jahr}
-
+        h1= theater.Titel
+        h3= theater.Jahr ? theater.Jahr : ""
 
         .carousel-container
             button.carousel-prev &lt;
             .carousel
-                each bild in theater.bilder
-                    img.carousel-slide(src=`/theaterbilder/${bild}`, alt=theater.titel)
+                each bild in theater.Bilder
+                    img.carousel-slide(src=`${url}${bild.url}`)
             button.carousel-next &gt;
+        if theater.Beschreibung
+            .theater-description
+                each line in theater.Beschreibung.split(/\r?\n+/)
+                    if line.match(/^##\s*(.*)/)
+                        h3= line.replace(/^##\s*/, "")
+                    else if line.trim() !== ""
+                        p= line
 
-        .theater-description
-            p= theater.beschreibung
+
+        script(src="/js/carousel.js")
+
+
+
 
     script.
         const slides = document.querySelectorAll('.carousel-slide');

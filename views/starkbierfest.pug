@@ -3,11 +3,15 @@ extends layout
 block content
     .starkbier-container
         h1 Starkbierfeste
+        img.tannengirlande(src="/images/Tannengirlande.svg", alt="Tannengirlande")
+        if starkbierfeste
+            .starkbier-grid
+                each fest in starkbierfeste
+                    a.starkbier-card(href=`/starkbierfest/${fest.Jahr}`)
+                        img(src=url+fest.randomBild)
+                        .starkbier-info
+                            h2= fest.Jahr
+                            p= fest.Kurzbeschreibung
 
-        .starkbier-grid
-            each fest in starkbierfeste
-                a.starkbier-card(href=`/starkbierfest/${fest.jahr}`)
-                    img(src=fest.bild, alt=`Starkbierfest ${fest.jahr}`)
-                    .starkbier-info
-                        h2= fest.jahr
-                        p= fest.beschreibung
+        else
+            p Aktuell keine Starkbierfeste verfügbar

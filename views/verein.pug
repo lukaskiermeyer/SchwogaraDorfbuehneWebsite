@@ -41,5 +41,12 @@ block content
         .downloads
             h2 Wichtige Dokumente
             .download-container
-                a(href="/docs/Aufnahmeantrag.pdf", class="btn-download") 📄 Aufnahmeantrag herunterladen
-                a(href="/docs/Satzung.pdf", class="btn-download") 📜 Satzung herunterladen
+                if antrag && antrag.Mitgliedsantrag && antrag.Mitgliedsantrag.url
+                    a(href=url+antrag.Mitgliedsantrag.url, class="btn-download") 📄 Aufnahmeantrag
+                else
+                    p 📄 Aufnahmeantrag derzeit nicht verfügbar.
+
+                if satzung && satzung.Satzung && satzung.Satzung.url
+                    a(href=url+satzung.Satzung.url, class="btn-download") 📜 Satzung
+                else
+                    p 📜 Satzung derzeit nicht verfügbar.

@@ -1,17 +1,16 @@
 extends layout
+
 block content
     section.termine#termine
         h1 Kommende Veranstaltungen
 
         .termine-container
-            each termin in termine
-                .termin-card
-                    h2= termin.titel
-                    p.date Datum: #{termin.datum}
-                    p.ort Ort: #{termin.ort}
-                    p.beschreibung= termin.beschreibung
-
-
-
-
-
+            if termine.length
+                each termin in termine
+                    .termin-card
+                        h2= termin.Titel
+                        p.date Datum und Uhrzeit: #{termin.Datum ? new Date(termin.Datum).toLocaleString('de-DE') : "Kein Datum verfügbar"}
+                        p.ort Ort: #{termin.Ort}
+                        p.beschreibung= termin.Beschreibung
+            else
+                p Es sind keine kommenden Veranstaltungen verfügbar.

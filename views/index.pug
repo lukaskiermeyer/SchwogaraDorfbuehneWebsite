@@ -34,34 +34,19 @@ block content
                 p Besuchen Sie unser traditionsreiches Starkbierfest.
 
 
-    // TEAM-BEREICH
     section.team#about
         h2 Unsere Vorstandschaft
         .team-grid
-            .team-member
-                img(src="/images/Wast.png")
-                h3 Sebastian Liedl
-                p 1. Vorstand
-            .team-member
-                img(src="/images/Andy.png")
-                h3 Andreas Schmidt
-                p 2. Vorstand
-            .team-member
-                img(src="/images/Werner.jpg")
-                h3 Werner Gruner
-                p Kassier
-            .team-member
-                img(src="/images/Theresa.jpg")
-                h3 Theresa Priller
-                p Schriftführerin
-            .team-member
-                img(src="/images/Hannah.jpg")
-                h3 Hannah Hauber
-                p Jugendvertretung
-            .team-member
-                img(src="/images/Christoph.jpg" alt="Team Member 6")
-                h3 Christoph Krammel
-                p Beirat
+            if vorstandschaft.length
+                each mitglied in vorstandschaft
+                    .team-member
+                        img(src=(mitglied.Bild && mitglied.Bild.url ? url + mitglied.Bild.url : url + '/images/placeholder.jpg'), alt=mitglied.Name)
+                        h3= mitglied.Name || "Unbekannt"
+                        p= mitglied.Position || "Keine Angabe"
+            else
+                p Aktuell keine Daten verfügbar.
+
+
 
 
     section.anfahrt#anfahrt

@@ -5,14 +5,17 @@ block content
         h1 Kartenverkauf
 
         .events-container
-            each event in events
-                .event-card
-                    h2= event.titel
-                    p.datum Datum: #{event.datum}
-                    p.ort Ort: #{event.ort}
-                    p.beschreibung= event.beschreibung
+            if karten && karten.length
+                each event in karten
+                    .event-card
+                        h2= event.Titel
+                        p.datum Datum: #{event.Datum ? new Date(event.Datum).toLocaleString('de-DE') : "Kein Datum verfügbar"}
+                        p.ort Ort: #{event.Ort || "Ort nicht angegeben"}
+                        p.beschreibung= event.Beschreibung || "Keine Beschreibung verfügbar"
 
-                    if event.ticketsOnline
-                        a(href=event.ticketLink, class="btn btn-primary") Tickets online kaufen
-                    else
-                        h4 Tickets sind vor Ort erhältlich
+                        if event.TicketsOnline && event.ticketLink
+                            a(href=event.ticketLink, class="btn btn-primary") Tickets online kaufen
+                        else
+                            h4 Tickets sind vor Ort erhältlich
+            else
+                p Es sind keine Veranstaltungen verfügbar.

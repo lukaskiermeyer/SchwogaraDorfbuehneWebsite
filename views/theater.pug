@@ -1,15 +1,25 @@
 extends layout
 
 block content
-    .theater-container
-        h1 Erwachsenentheater Archiv
-        p Hier findest du eine Übersicht über alle bisherigen Aufführungen.
+    .theater-header
+        .sort-container
+            .sort-dropdown
+                button.sort-button Sortieren
+                .sort-menu
+                    a(href="/theater?sort=title&order=asc") Titel (A–Z)
+                    a(href="/theater?sort=title&order=desc") Titel (Z–A)
+                    a(href="/theater?sort=year&order=asc") Jahr (aufsteigend)
+                    a(href="/theater?sort=year&order=desc") Jahr (absteigend)
+        .headertext
+            h1 Erwachsenentheater Archiv
+            p Hier finden Sie eine Übersicht aller bisherigen Aufführungen.
 
+    if theaterstuecke.length
         .theater-grid
             each theater in theaterstuecke
-                a.theater-card(data-id=theater.id, href=`/theater/${theater.id}`)
-                    img(src=`/theaterbilder/${theater.vorschaubild}`, alt=theater.titel)
-                    h3= theater.titel
+                a.theater-card(href=`/theater/${theater.id}`)
+                    img(src=`${url}${theater.randomBild}`)
+                    h3= theater.Titel
 
-
-
+    else
+        p Es sind derzeit keine Theaterstücke verfügbar.

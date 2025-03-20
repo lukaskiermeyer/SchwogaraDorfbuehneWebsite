@@ -1,11 +1,23 @@
 extends layout
 
 block content
-    .starkbier-detail
+    .theater-detail-container
         h1 Starkbierfest #{fest.jahr}
+        h3=fest.Kurzbeschreibung
 
-        img(src=fest.bild, alt=`Starkbierfest ${fest.jahr}`)
+        .carousel-container
+            button.carousel-prev &lt;
+            .carousel
+                each bild in fest.Bilder
+                    img.carousel-slide(src=`${url}${bild.url}`)
+            button.carousel-next &gt;
 
-        p= fest.beschreibung
+        if fest.Beschreibung
+            .theater-description
+                each line in fest.Beschreibung.split(/\r?\n+/)
+                    if line.match(/^##\s*(.*)/)
+                        h3= line.replace(/^##\s*/, "")
+                    else if line.trim() !== ""
+                        p= line
 
-        a.back-button(href="/starkbierfest") Zurück zur Übersicht
+    script(src="/js/carousel.js")

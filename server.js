@@ -1,221 +1,234 @@
-// server.js
-const express = require('express');
+const express = require("express");
+const axios = require("axios");
+const path = require("path");
+const child_process = require("child_process");
+require("dotenv").config();
+
 const app = express();
-const path = require('path');
-const {readdirSync} = require("fs");
+const PORT = process.env.PORT || 3000;
+
+const STRAPI_URL = process.env.STRAPI_URL;
+const STRAPI_API_TOKEN = process.env.STRAPI_TOKEN;
 
 // Pug als Template Engine setzen
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Statische Dateien (CSS, JS, Bilder) aus dem "public"-Ordner bereitstellen
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Beispiel-Routen
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Schwoagara Dorfbühne' });
-});
-
-app.get("/termine", (req, res) => {
-    const termine = [
-        { titel: "Theaterstück 'Der Brandner Kaspar'", datum: "2024-04-15", ort: "Dorfsaal", beschreibung: "Ein humorvolles Schauspiel über das Leben und den Tod." },
-        { titel: "Starkbierfest 2024", datum: "2024-05-10", ort: "Biergarten", beschreibung: "Traditionelles Starkbierfest mit Musik & guter Stimmung!" },
-        { titel: "Jugendtheater Premiere", datum: "2024-06-01", ort: "Jugendbühne", beschreibung: "Unsere Nachwuchsschauspieler präsentieren ihr neues Stück!" }
-    ];
-
-    const formatierteTermine = termine.map(termin => ({
-        ...termin,
-        datum: formatDate(termin.datum)
-    }));
-
-
-    res.render("termine", { termine: formatierteTermine });
-});
-
-function formatDate(dateStr) {
-    const datum = new Date(dateStr);
-    return datum.getDate() + ". " + (datum.getMonth() + 1) + ". " + datum.getFullYear();
-}
-
-
-app.get('/karten', (req, res) => {
-    // Beispiel für ein Event-Array
-    const events = [
-        {
-            titel: "Theaterstück A",
-            datum: "15. März 2025",
-            ort: "Kulturhaus Schwoagara",
-            beschreibung: "Ein spannendes Drama über ...",
-            ticketsOnline: true,
-            ticketLink: "https://www.okticket.de/event-a"
-        },
-        {
-            titel: "Theaterstück B",
-            datum: "22. März 2025",
-            ort: "Schwoagara Dorfhalle",
-            beschreibung: "Komödie über ...",
-            ticketsOnline: false
-        }
-    ];
-
-
-    res.render('kartenverkauf', {events: events});
-});
-
-
-app.get('/verein', (req, res) => {
-    res.render('verein');
-});
-
-// Statische Dateien bereitstellen
-app.use('/kulturboten', express.static(path.join(__dirname, 'public/kulturboten')));
-
-function getKulturboten() {
-    const dir = path.join(__dirname, 'public/kulturboten');
+// Funktion zum Abrufen von Strapi-Daten
+async function fetchStrapiData(endpoint) {
     try {
-        return readdirSync(dir)
-            .filter(file => file.endsWith('.pdf'))
-            .sort((a, b) => parseInt(b) - parseInt(a)); // Nach Nummer absteigend sortieren
-    } catch (err) {
-        console.error("Fehler beim Lesen des Verzeichnisses:", err);
-        return [];
+        const response = await axios.get(`${STRAPI_URL}/api/${endpoint}?populate=*&pagination[limit]=1000`, {
+            headers: { Authorization: `Bearer ${STRAPI_API_TOKEN}` }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(`Fehler beim Abrufen von ${endpoint}:`, error.message);
+        return null;
     }
 }
 
-app.get('/kulturbote', (req, res) => {
-    const kulturboten = getKulturboten()
-    res.render('kulturbote', {kulturboten});
+
+// Startseite
+app.get("/", async (req, res) => {
+    const vorstandschaft = await fetchStrapiData("vorstandschafts") || [];
+    res.render("index", { vorstandschaft, url: process.env.STRAPI_URL });
 });
 
 
-app.get('/theater', (req, res) => {
-    const theaterstuecke = [
-        { id: 1, titel: "Hochstandsjoseph", vorschaubild: "Hochstandsjoseph.jpeg" },
-        { id: 2, titel: "Alladin", vorschaubild: "Alladin.jpg" },
-        { id: 3, titel: "Die Schöne und das Biest", vorschaubild: "DieSchöneunddasBiest.jpg",}
-    ];
-    res.render('theater', { theaterstuecke });
+// Termine
+app.get("/termine", async (req, res) => {
+    const termine = await fetchStrapiData("termins") || []; // Standardwert auf leeres Array setzen
+    console.log(termine);
+    res.render("termine", { termine });
 });
 
 
-const theaterDetails = [
-    {
-        id: 1,
-        titel: "Hochstandsjoseph",
-        jahr: 2023,
-        beschreibung: "Eine heitere Komödie über das Landleben.",
-        bilder: ["Hochstandsjoseph.jpeg"]
-    },
-    {
-        id: 2,
-        titel: "Alladin",
-        jahr: 2019,
-        beschreibung: "Eine fantasievolle Geschichte über einen Bettler, der eine magische Wunderlampe findet.",
-        bilder: ["Alladin.jpg"]
-    },
-    {
-        id: 3,
-        titel: "Die Schöne und das Biest",
-        jahr: 2022,
-        beschreibung: "Eine Geschichte über einen verzauberten Prinzen und eine wunderschöne Prinzessin.",
-        bilder: ["DieSchöneunddasBiest.jpg"]
+// Kartenvorverkauf
+app.get("/karten", async(req, res) => {
+    const karten = await fetchStrapiData("kartenverkaufs");
+    console.log(karten);
+    res.render("kartenverkauf", {karten});
+});
+
+// Verein
+app.get("/verein", async(req, res) => {
+    const antrag = await fetchStrapiData("mitgliedsantrag");
+    const satzung = await fetchStrapiData("satzung");
+    res.render("verein", {antrag, satzung, url: process.env.STRAPI_URL});
+});
+
+
+
+// Kulturboten
+app.get("/kulturbote", async (req, res) => {
+    const kulturboten = await fetchStrapiData("kulturbotes");
+    res.render("kulturbote", { kulturboten, url: process.env.STRAPI_URL });
+});
+
+// Theater
+app.get("/theater", async (req, res) => {
+    try {
+        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        let theaterstuecke = await fetchStrapiData("theaterstuecke") || [];
+
+        // Zufälliges Bild aus der Bilderliste extrahieren
+        theaterstuecke.forEach(stueck => {
+            if (stueck.Bilder && stueck.Bilder.length > 0) {
+                const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
+                stueck.randomBild = stueck.Bilder[randomIndex].url;
+            } else {
+                stueck.randomBild = null;
+            }
+        });
+
+        // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
+        if (sort === "title") {
+            theaterstuecke.sort((a, b) => {
+                // Sicherheitscheck: Umwandlung in Kleinbuchstaben für konsistente Sortierung
+                const titleA = a.Titel ? a.Titel.toLowerCase() : "";
+                const titleB = b.Titel ? b.Titel.toLowerCase() : "";
+                return order === "desc"
+                    ? titleB.localeCompare(titleA)
+                    : titleA.localeCompare(titleB);
+            });
+        } else if (sort === "year") {
+            theaterstuecke.sort((a, b) => {
+                return order === "desc"
+                    ? b.Jahr - a.Jahr
+                    : a.Jahr - b.Jahr;
+            });
+        }
+
+        res.render("theater", { theaterstuecke, url: process.env.STRAPI_URL, sort, order });
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Theaterstücke:", error);
+        res.render("theater", { theaterstuecke: [], url: process.env.STRAPI_URL, sort: "", order: "" });
     }
-];
+});
 
 
-// 🔹 Route für die Detailseite eines Theaterstücks
-app.get('/theater/:id', (req, res) => {
-    const theater = theaterDetails.find(t => t.id == req.params.id);
+
+
+
+
+app.get("/theater/:id", async (req, res) => {
+    const theaterstuecke = await fetchStrapiData("theaterstuecke"); // Alle Theaterstücke abrufen
+    const theater = theaterstuecke.find(t => t.id === parseInt(req.params.id)); // Das spezifische Theaterstück nach ID finden
 
     if (!theater) {
         return res.status(404).send("Theaterstück nicht gefunden");
     }
 
-    res.render('theaterdetails', { theater });
+    res.render("theaterdetails", { theater, url: process.env.STRAPI_URL });
 });
 
-const jugendtheaterStuecke = [
-    {
-        id: 1,
-        titel: "Das Verschwundene Zauberlicht",
-        jahr: 2024,
-        beschreibung: "Ein zauberhaftes Märchen über eine Prinzessin und einen verzauberten Frosch.",
-        bilder: ["DasVerschwundeneZauberlicht.jpg"]
-    },
-    {
-        id: 2,
-        titel: "Der rote Mond",
-        jahr: 2022,
-        beschreibung: "Die magische Geschichte von Peter Pan und seinen Abenteuern in Nimmerland.",
-        bilder: ["DerroteMond.jpg"]
-    },
-    {
-        id: 3,
-        titel: "Theater 2008",
-        jahr: 2019,
-        beschreibung: "Ein klassisches Märchen über eine Prinzessin, die in einen tiefen Schlaf fällt.",
-        bilder: ["Theater2008.jpg"]
-    },
-    {
-        id: 4,
-        titel: "Theater 2007",
-        jahr: 2019,
-        beschreibung: "Ein klassisches Märchen über eine Prinzessin, die in einen tiefen Schlaf fällt.",
-        bilder: ["Theater2007.jpg"]
-    }
-];
 
-app.get('/jugendtheater', (req, res) => {
+// Jugendtheater
+app.get("/jugendtheater", async (req, res) => {
+    try {
+        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        let jugendtheaterStuecke = await fetchStrapiData("jugendtheaterstuecke") || [];
 
-    res.render('jugendtheater', { jugendtheaterStuecke });
-});
+        // Zufälliges Bild aus der Bilderliste extrahieren
+        jugendtheaterStuecke.forEach(stueck => {
+            if (stueck.Bilder && stueck.Bilder.length > 0) {
+                const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
+                stueck.randomBild = stueck.Bilder[randomIndex].url;
+            } else {
+                stueck.randomBild = null;
+            }
+        });
+        console.log(jugendtheaterStuecke[0]);
+        // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
+        if (sort === "title") {
+            jugendtheaterStuecke.sort((a, b) => {
+                // Sicherheitscheck: Umwandlung in Kleinbuchstaben für konsistente Sortierung
+                const titleA = a.Titel ? a.Titel.toLowerCase() : "";
+                const titleB = b.Titel ? b.Titel.toLowerCase() : "";
+                return order === "desc"
+                    ? titleB.localeCompare(titleA)
+                    : titleA.localeCompare(titleB);
+            });
+        } else if (sort === "year") {
+            jugendtheaterStuecke.sort((a, b) => {
+                return order === "desc"
+                    ? b.Jahr - a.Jahr
+                    : a.Jahr - b.Jahr;
+            });
+        }
 
-app.get('/jugendtheater/:id', (req, res) => {
-    const theater = jugendtheaterStuecke.find(t => t.id == req.params.id);
-    if (theater) {
-        res.render('jugendtheaterdetails', { theater });
-    } else {
-        res.status(404).send("Kindertheaterstück nicht gefunden");
+        res.render("jugendtheater", { jugendtheaterStuecke, url: process.env.STRAPI_URL, sort, order });
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Theaterstücke:", error);
+        res.render("jugendtheater", { jugendtheaterStuecke: [], url: process.env.STRAPI_URL, sort: "", order: "" });
     }
 });
 
+app.get("/jugendtheater/:id", async (req, res) => {
+    const theaterstuecke = await fetchStrapiData(`jugendtheaterstuecke`) ||[];
+    const theater = theaterstuecke.find(t => t.id === parseInt(req.params.id)); // Das spezifische Theaterstück nach ID finden
 
-// Array mit allen Starkbierfesten
-const starkbierfeste = Array.from({ length: 2024 - 2003 }, (_, i) => {
-    const jahr = 2003 + i;
-    return {
-        jahr,
-        bild: `/starkbierbilder/${jahr}.jpg`,
-        beschreibung: `Das Starkbierfest ${jahr} war ein voller Erfolg mit vielen Gästen und einer großartigen Stimmung.`
-    };
-}).filter(fest => fest.jahr !== 2021); // 2021 auslassen wegen Corona
+    if (!theater) return res.status(404).send("Jugendtheaterstück nicht gefunden");
 
-// Route für die Übersichtsseite
-app.get("/starkbierfest", (req, res) => {
-    res.render("starkbierfest", { starkbierfeste });
+    console.log(process.env.STRAPI_URL+theater.Bilder[0].url)
+    res.render("jugendtheaterdetails", { theater, url: process.env.STRAPI_URL });
+
 });
 
-// Route für die Detailseite eines Jahrgangs
-app.get("/starkbierfest/:jahr", (req, res) => {
-    const jahr = parseInt(req.params.jahr);
-    const fest = starkbierfeste.find(f => f.jahr === jahr);
+// Starkbierfest
+app.get("/starkbierfest", async (req, res) => {
+    try {
+        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        let starkbierfeste = await fetchStrapiData("starbierfeste") || []; //leider Rechtschreibfehler in API
 
-    if (!fest) {
-        return res.status(404).send("Jahr nicht gefunden");
+        // Zufälliges Bild aus der Bilderliste extrahieren
+        starkbierfeste.forEach(fest => {
+            if (fest.Bilder && fest.Bilder.length > 0) {
+                const randomIndex = Math.floor(Math.random() * fest.Bilder.length);
+                fest.randomBild = fest.Bilder[randomIndex].url;
+            } else {
+                fest.randomBild = null;
+            }
+        });
+        console.log(starkbierfeste[0].randomBild);
+        // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
+         if (sort === "year") {
+            starkbierfeste.sort((a, b) => {
+                return order === "desc"
+                    ? b.Jahr - a.Jahr
+                    : a.Jahr - b.Jahr;
+            });
+        }
+
+        res.render("starkbierfest", { starkbierfeste, url: process.env.STRAPI_URL, sort, order });
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Theaterstücke:", error);
+        res.render("starkbierfest", { starkbierfeste: [], url: process.env.STRAPI_URL, sort: "", order: "" });
     }
+});
 
-    res.render("starkbierfestdetails", { fest });
-})
+app.get("/starkbierfest/:jahr", async (req, res) => {
+    const starkbierfeste = await fetchStrapiData("starbierfeste") || [];
+    const fest = starkbierfeste.find(t => t.Jahr === parseInt(req.params.jahr)); // Das spezifische Theaterstück nach ID finden
 
+    if(!fest) return res.status(404).send("Starkbierfest nicht gefunden");
 
+    res.render("starkbierfestdetails", {fest, url: process.env.STRAPI_URL });
+});
 
+// Bilderarchiv
+app.get("/bilderarchiv", async (req, res) => {
+    const archiv = await fetchStrapiData("bilderarchivs") || [];
+    res.render("archiv", { archiv, url: process.env.STRAPI_URL });
+});
 
+// Weitere statische Seiten
+app.get("/links", (req, res) => res.render("links"));
+app.get("/impressum", (req, res) => res.render("impressum"));
+app.get("/datenschutz", (req, res) => res.render("datenschutz"));
 
-
-
-// Weitere Routen für andere Seiten (Kartenvorverkauf, Verein, etc.) können hier hinzugefügt werden.
-
-const PORT = process.env.PORT || 3000;
+// Server starten
 app.listen(PORT, () => {
     console.log(`Server läuft auf Port ${PORT}`);
 });

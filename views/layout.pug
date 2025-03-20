@@ -6,7 +6,7 @@ html(lang="de")
         title #{title} | Schwoagara Dorfbühne
         link(rel="stylesheet", href="/css/style.css")
         link(rel="stylesheet", href="/css/fonts.css")
-        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Bayreuth+Sans&display=swap")
+
     body
         header.navbar
             a.navbar-brand(href="/")
@@ -31,7 +31,18 @@ html(lang="de")
             .container
                 block content
 
-        footer.footer
+footer.footer
+    .footer-container
+        .footer-logo
+            p Schwoagara Dorfbühne
+        .footer-links
+            a(href="/datenschutz") Datenschutz
+            a(href="/impressum") Impressum
+        .footer-socials
+            a(href="https://facebook.com" target="_blank")
+                i.fab.fa-facebook
+            a(href="https://instagram.com" target="_blank")
+                i.fab.fa-instagram
+        .footer-bottom
             p © #{new Date().getFullYear()} Schwoagara Dorfbühne – Alle Rechte vorbehalten
 
-        script(src="/js/main.js")
