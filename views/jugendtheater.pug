@@ -1,22 +1,33 @@
 extends layout
 
 block content
-    .theater-header
-        .sort-container
-            .sort-dropdown
-                button.sort-button Sortieren
-                .sort-menu
-                    a(href="/jugendtheater?sort=title&order=asc") Titel (A–Z)
-                    a(href="/jugendtheater?sort=title&order=desc") Titel (Z–A)
-                    a(href="/jugendtheater?sort=year&order=asc") Jahr (aufsteigend)
-                    a(href="/jugendtheater?sort=year&order=desc") Jahr (absteigend)
-        .headertext
-            h1 Kindertheater Archiv
-            p Entdecke unsere zauberhaften Aufführungen für Kinder.
+            .jugendtheater-container
+                .jugendtheater-header
+                    .jugendtheater-text
+                        h1 Jugendtheater
+                        p Das Jugendtheater der Schwoagara Dorfbühne wird von
+                            strong  Steffi Gruner
+                            |  betreut. Hier können Kinder und Jugendliche Theaterluft schnuppern, gemeinsam Proben und tolle Aufführungen auf die Bühne bringen.
+                        p Wenn Ihr Kind Interesse hat, melden Sie sich gerne bei uns!
+                    img.jugendtheater-bild(src="/images/steffi.jpg")
 
-    if jugendtheaterStuecke
-        .jugendtheater-grid
-            each theater in jugendtheaterStuecke
-                a.jugendtheater-card(data-id=theater.id, href=`/jugendtheater/${theater.id}`)
-                    img(src=url+theater.randomBild)
-                    h3= theater.Titel
+            .theater-header
+                .sort-container
+                    .sort-dropdown
+                        button.sort-button Sortieren
+                        .sort-menu
+                            a(href="/jugendtheater?sort=title&order=asc") Titel (A–Z)
+                            a(href="/jugendtheater?sort=title&order=desc") Titel (Z–A)
+                            a(href="/jugendtheater?sort=year&order=asc") Jahr (aufsteigend)
+                            a(href="/jugendtheater?sort=year&order=desc") Jahr (absteigend)
+                .headertext
+                    h1 Jugendtheater Archiv
+
+            if jugendtheaterStuecke.length
+                .jugendtheater-grid
+                    each stueck in jugendtheaterStuecke
+                        a.jugendtheater-card(href=`/jugendtheater/${stueck.id}`)
+                            img(src=`${url}${stueck.randomBild}`, alt=stueck.Titel)
+                            h3= stueck.Titel
+            else
+                p Es sind derzeit keine Jugendtheaterstücke verfügbar.

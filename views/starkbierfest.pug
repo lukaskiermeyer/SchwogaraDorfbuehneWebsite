@@ -2,16 +2,24 @@ extends layout
 
 block content
     .starkbier-container
-        h1 Starkbierfeste
-        img.tannengirlande(src="/images/Tannengirlande.svg", alt="Tannengirlande")
-        if starkbierfeste
-            .starkbier-grid
-                each fest in starkbierfeste
-                    a.starkbier-card(href=`/starkbierfest/${fest.Jahr}`)
-                        img(src=url+fest.randomBild)
-                        .starkbier-info
-                            h2= fest.Jahr
-                            p= fest.Kurzbeschreibung
+            .theater-header
+                .sort-container
+                    .sort-dropdown
+                        button.sort-button Sortieren
+                        .sort-menu
+                            a(href="/starkbierfest?sort=year&order=asc") Jahr (aufsteigend)
+                            a(href="/starkbierfest?sort=year&order=desc") Jahr (absteigend)
+                .headerdetails
+                    h1 Starkbierfeste
 
-        else
-            p Aktuell keine Starkbierfeste verfügbar
+            if starkbierfeste
+                .starkbier-grid
+                    each fest in starkbierfeste
+                        a.starkbier-card(href=`/starkbierfest/${fest.Jahr}`)
+                            img(src=url+fest.randomBild)
+                            .starkbier-info
+                                h2= fest.Jahr
+                                p= fest.Kurzbeschreibung
+
+            else
+                p Aktuell keine Starkbierfeste verfügbar

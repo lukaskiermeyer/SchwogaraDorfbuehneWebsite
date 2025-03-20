@@ -149,6 +149,97 @@ html, body{
     height: auto;
 }
 
+
+/* Instagram-Bereich */
+.instagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.instagram-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.instagram-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    background-color: var(--background-color);
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+.instagram-content{
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+
+
+.instagram-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--black);
+    color: var(--background-color);
+}
+
+
+.instagram-container:hover .instagram-text p {
+    color: var(--background-color);
+}
+
+
+.instagram-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    transition: filter 0.3s ease;
+    border-radius: 11px;
+    overflow: hidden;
+}
+
+
+.instagram-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+    border: 1px solid black;
+}
+
+.instagram-text h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.instagram-text p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+
+
+
+
+
+
+
 /* 5. Services Section */
 .services {
     padding: 2rem;
@@ -379,6 +470,10 @@ html, body{
     background: #f9f9f9;
 }
 
+.verein h1{
+    margin-bottom: 20px;
+}
+
 .verein-info {
     max-width: 800px;
     margin: 0 auto;
@@ -510,6 +605,12 @@ html, body{
 .kulturbote-container{
     margin: 30px;
 }
+.kultorbote-header{
+    margin-top: 20px;
+    align-items: center;
+    text-align: center;
+}
+
 .kulturbote-container a{
     text-decoration: none;
     color: var(--black);
@@ -550,10 +651,6 @@ html, body{
 
 
 
-
-
-
-
 .theater-container{
     margin: 30px;
 }
@@ -564,6 +661,10 @@ html, body{
     gap: 20px;
     justify-content: center;
     padding: 30px;
+}
+.headertext{
+    align-items: center;
+    text-align: center;
 }
 
 .theater-card {
@@ -627,6 +728,7 @@ html, body{
     flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 
@@ -701,62 +803,104 @@ html, body{
     line-height: 1.6;
 }
 
-
-.carousel {
-    display: flex;
-    gap: 10px;
-    white-space: nowrap;
-}
-
 .carousel-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     position: relative;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0px 16px 24px 0px rgba(0,0,0,0.6);
 }
 
 .carousel-slide {
     width: 100%;
     display: none;
     border-radius: 8px;
+    border: 2px solid var(--black);
 }
 
 .carousel-prev, .carousel-next {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
+    top: 0;
+    bottom: 0;
+    width: 60px;
     border: none;
-    padding: 10px;
     cursor: pointer;
-    font-size: 18px;
-    border-radius: 50%;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
-.carousel-prev { left: 10px; }
-.carousel-next { right: 10px; }
+.carousel-prev {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
+    left: 0;
+}
+
+.carousel-next {
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.7), transparent);
+    right: 0;
+}
 
 .carousel-prev:hover, .carousel-next:hover {
     background: rgba(0, 0, 0, 0.8);
 }
 
-button.carousel-prev {
-    position: absolute;
-    left: 0;
+/* Pfeil-Icon anpassen */
+.carousel-prev img, .carousel-next img {
+    width: 35px;
+    height: 35px;
 }
 
-button.carousel-next {
-    position: absolute;
-    right: 0;
+/* Prev-Pfeil umdrehen */
+.carousel-prev img {
+    transform: scaleX(-1);
 }
+
 
 
 
 
 /* Kindertheater Anpassungen - Analog zum Erwachsenentheater */
-.jugendtheater-container{
-    margin: 30px;
+.jugendtheater-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.jugendtheater-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.jugendtheater-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.jugendtheater-text h1 {
+    font-size: 32px;
+    color: var(--black);
+    margin-bottom: 10px;
+}
+
+.jugendtheater-text p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.jugendtheater-bild {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .jugendtheater-grid {
@@ -779,7 +923,9 @@ button.carousel-next {
     box-shadow 0.3s ease,
     color 0.3s ease;
     border: 1px solid var(--black);
+    background: transparent;
 }
+
 
 .jugendtheater-card::before {
     content: "";
@@ -796,6 +942,8 @@ button.carousel-next {
     position: absolute;
     z-index: -1;
 }
+
+
 
 .jugendtheater-card h3 {
     position: absolute;
@@ -826,19 +974,14 @@ button.carousel-next {
 
 
 
-
-
-.tannengirlande {
-    display: block;
-    max-width: 300px;  /* Standardgröße für größere Bildschirme */
-    width: 100%;       /* Sorgt für Responsive Verhalten */
-    margin: -10px auto 20px auto; /* Positionierung */
-}
-
 .starkbier-container {
     text-align: center;
     padding: 4rem 2rem;
     background: #f9f9f9;
+}
+
+.starkbier-container .theater-header{
+    margin: 0;
 }
 
 .starkbier-container h1 {
@@ -1080,6 +1223,12 @@ button.carousel-next {
     border-radius: 8px;
 }
 
+.links{
+    margin-top: 20px;
+    align-items: center;
+    text-align: center;
+}
+
 .links-container {
     display: grid;
     gap: 1rem;
@@ -1095,7 +1244,13 @@ button.carousel-next {
 
 
 
-.gallery-container {
+
+.bilderarchiv-h1{
+    margin-top: 30px;
+    text-align: center;
+}
+/* Container für das Bilderarchiv */
+.bilderarchiv-container {
     max-width: 1000px;
     margin: 20px auto;
     padding: 20px;
@@ -1104,52 +1259,57 @@ button.carousel-next {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.event {
+.bilderarchiv-container h1 {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.event-header {
+/* Header für jedes Event */
+.bilderarchiv-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #f1f1f1;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
+    border: 2px solid var(--black);
+    box-shadow:  inset 0 0 0 3px var(--gold);
 }
 
-.toggle-button {
-    border: none;
+
+
+
+.bilderarchiv-toggle-button {
     background: none;
+    border: none;
     font-size: 18px;
     cursor: pointer;
 }
 
-.event-carousel {
+.bilderarchiv-carousel-container {
+    position: relative;
     display: flex;
     align-items: center;
-    margin-top: 10px;
-}
-
-.carousel-wrapper {
-    display: flex;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    white-space: nowrap;
+    justify-content: center;
+    overflow: hidden; /* Verhindert, dass die Bilder rausragen */
     width: 80%;
+    margin: 10px auto;
 }
 
-.carousel-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+.bilderarchiv-carousel-wrapper {
+    width: 100%;
+    overflow: hidden; /* Kein Scroll-Balken */
+    position: relative;
 }
 
-
-.carousel-btn.right {
-    position: absolute;
-    right: 0;
+.bilderarchiv-carousel {
+    display: flex;
+    gap: 10px;
+    transition: transform 0.4s ease-in-out; /* Für sanfte Animation */
 }
 
-.carousel-item {
+.bilderarchiv-carousel-item {
     flex: 0 0 auto;
     width: 150px;
     height: 100px;
@@ -1157,56 +1317,102 @@ button.carousel-next {
     overflow: hidden;
 }
 
-.carousel-item img {
+.bilderarchiv-carousel-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-button.carousel-prev,
-button.carousel-next {
-    background: rgba(0, 0, 0, 0.5);
+/* Buttons */
+.bilderarchiv-carousel-prev,
+.bilderarchiv-carousel-next {
+    background: rgba(0,0,0,0.5);
     color: white;
     border: none;
-    padding: 10px;
-    font-size: 24px;
-    cursor: pointer;
     border-radius: 50%;
-    transition: background 0.3s ease-in-out;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    z-index: 10;
 }
 
-
-button.carousel-prev:hover,
-button.carousel-next:hover {
-    background: rgba(0, 0, 0, 0.8);
+.bilderarchiv-carousel-prev:hover,
+.bilderarchiv-carousel-next:hover {
+    background: rgba(0,0,0,0.8);
 }
 
-.event-details {
-    margin-top: 10px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 8px;
+/* Carousel-Wrapping */
+.bilderarchiv-carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
 }
 
-.event-details.hidden {
-    display: none;
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+.bilderarchiv-carousel {
+    display: flex;
     gap: 10px;
-    margin-top: 10px;
+    transition: transform 0.5s ease-in-out;
+    scroll-behavior: smooth;
 }
 
-.gallery img {
+.bilderarchiv-carousel-item {
+    flex: 0 0 auto;
+    width: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.bilderarchiv-carousel-item img {
     width: 100%;
     height: 120px;
     object-fit: cover;
     border-radius: 8px;
 }
 
+/* Details mit Beschreibung */
+.bilderarchiv-details {
+    display: none;
+    margin-top: 10px;
+}
 
+.bilderarchiv-details.hidden {
+    display: none;
+}
+
+.bilderarchiv-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.bilderarchiv-gallery a {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.bilderarchiv-gallery a:hover {
+    transform: scale(1.05);
+}
+
+.bilderarchiv-gallery img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Beschreibung */
+.bilderarchiv-description {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
 
 
 
@@ -1238,6 +1444,10 @@ button.carousel-next:hover {
     font-family: "Bavarian", sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.footer-logo :hover{
+    color: var(--gold);
 }
 
 .footer-links a {
@@ -1303,7 +1513,7 @@ button.carousel-next:hover {
         top: 60px;
         left: 0;
         padding: 10px 0;
-        z-index: 2;
+        z-index: 5;
     }
 
     .nav-menu.active {

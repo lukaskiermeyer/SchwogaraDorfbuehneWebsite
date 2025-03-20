@@ -1,34 +1,33 @@
 extends layout
 
 block content
-    h1 Bilderarchiv
+    h1.bilderarchiv-h1 Bilderarchiv
 
-    .gallery-container
+    .bilderarchiv-container
         if archiv
-            each kathegorie in archiv
-                .event
-                    .event-header
-                        h2= kathegorie.Veranstaltung
-                        button.toggle-button(onclick="toggleGallery(this)") ▼
+            each kategorie in archiv
+                .bilderarchiv-event
+                    .bilderarchiv-header
+                        h2= kategorie.Veranstaltung
+                        button.bilderarchiv-toggle-button(onclick="toggleGallery(this)") ▼
 
-                    .carousel-container
-                        button.carousel-prev(onclick="scrollLeft(this)") ◀
-                        .carousel-wrapper
-                            .carousel
-                                each Bild in kathegorie.Bilder
-                                    a.carousel-item(href=url+Bild.url, target="_blank")
+                    .bilderarchiv-carousel-container
+                        button.bilderarchiv-carousel-prev(onclick="bascrollLeft(this)") ◀
+                        .bilderarchiv-carousel-wrapper
+                            .bilderarchiv-carousel
+                                each Bild in kategorie.Bilder
+                                    a.bilderarchiv-carousel-item(href=url+Bild.url, target="_blank")
                                         img(src=url+Bild.url)
-                        button.carousel-next(onclick="scrollRight(this)") ▶
+                        button.bilderarchiv-carousel-next(onclick="bascrollRight(this)") ▶
 
-                    .event-details.hidden
-                        .gallery
-                            each Bild in kathegorie.Bilder
+
+                    .bilderarchiv-details.hidden
+                        .bilderarchiv-gallery
+                            each Bild in kategorie.Bilder
                                 a(href=url+Bild.url, target="_blank")
                                     img(src=url+Bild.url)
-                        p.event-description= kathegorie.Beschreibung
+                        p.bilderarchiv-description= kategorie.Beschreibung
         else
             p Es sind derzeit keine Bilder verfügbar.
-
-
 
     script(src="/js/archiv.js")

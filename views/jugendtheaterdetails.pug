@@ -6,11 +6,14 @@ block content
         h3= theater.Jahr ? theater.Jahr : ""
 
         .carousel-container
-            button.carousel-prev &lt;
+            button.carousel-prev
+                img(src="/images/Pfeil.svg", alt="Vorherige Folie")
             .carousel
                 each bild in theater.Bilder
-                    img.carousel-slide(src=`${url}${bild.url}`)
-            button.carousel-next &gt;
+                    a(href=`${url}${bild.url}`, target="_blank")
+                        img.carousel-slide(src=`${url}${bild.url}`)
+            button.carousel-next
+                img(src="/images/Pfeil.svg", alt="Nächste Folie")
         if theater.Beschreibung
             .theater-description
                 each line in theater.Beschreibung.split(/\r?\n+/)
@@ -19,4 +22,4 @@ block content
                     else if line.trim() !== ""
                         p= line
 
-            script(src="/js/carousel.js")
+        script(src="/js/carousel.js")

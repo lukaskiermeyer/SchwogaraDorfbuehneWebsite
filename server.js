@@ -69,7 +69,9 @@ app.get("/kulturbote", async (req, res) => {
 // Theater
 app.get("/theater", async (req, res) => {
     try {
-        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        const sort = req.query.sort || "year";
+        const order = req.query.order || "desc";
+
         let theaterstuecke = await fetchStrapiData("theaterstuecke") || [];
 
         // Zufälliges Bild aus der Bilderliste extrahieren
@@ -127,7 +129,9 @@ app.get("/theater/:id", async (req, res) => {
 // Jugendtheater
 app.get("/jugendtheater", async (req, res) => {
     try {
-        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        const sort = req.query.sort || "year";
+        const order = req.query.order || "desc";
+
         let jugendtheaterStuecke = await fetchStrapiData("jugendtheaterstuecke") || [];
 
         // Zufälliges Bild aus der Bilderliste extrahieren
@@ -139,7 +143,6 @@ app.get("/jugendtheater", async (req, res) => {
                 stueck.randomBild = null;
             }
         });
-        console.log(jugendtheaterStuecke[0]);
         // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
         if (sort === "title") {
             jugendtheaterStuecke.sort((a, b) => {
@@ -179,7 +182,8 @@ app.get("/jugendtheater/:id", async (req, res) => {
 // Starkbierfest
 app.get("/starkbierfest", async (req, res) => {
     try {
-        const { sort, order } = req.query; // z.B. sort=title, order=asc
+        const sort = req.query.sort || "year"
+        const order = req.query.order ||"desc"
         let starkbierfeste = await fetchStrapiData("starbierfeste") || []; //leider Rechtschreibfehler in API
 
         // Zufälliges Bild aus der Bilderliste extrahieren
@@ -191,7 +195,7 @@ app.get("/starkbierfest", async (req, res) => {
                 fest.randomBild = null;
             }
         });
-        console.log(starkbierfeste[0].randomBild);
+
         // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
          if (sort === "year") {
             starkbierfeste.sort((a, b) => {

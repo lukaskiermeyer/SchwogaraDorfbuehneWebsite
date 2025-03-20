@@ -13,7 +13,15 @@ block content
             button.btn.btn-primary(onclick="location.href='#anfahrt'") Anfahrt
             button.btn.btn-secondary(onclick="location.href='#contact'") Kontakt
 
-
+    section.instagram
+        a.instagram-link(href="https://www.instagram.com/dorfbuehne.schwoag/", target="_blank")
+            .instagram-container
+                .instagram-content
+                    img.instagram-profile(src="/images/dorfbuehne_insta.jpg", alt="Instagram Profil")
+                    .instagram-text
+                        h3 dorfbuehne.schwoag
+                        p Folge uns auf Instagram
+                img.instagram-icon(src="/images/Instagram_icon.webp", alt="Instagram Icon")
 
 
     // SERVICE-/ANGEBOTS-BEREICH
@@ -23,16 +31,15 @@ block content
             a.service(href="/theater")
                 img(src="/images/IconBühne.svg" alt="Theater Icon")
                 h3 Theater
-                p Genießen Sie unsere mitreißenden Stücke, gespielt von unseren Erfahrenen Darstellern.
+                p Genießen Sie unsere mitreißenden Stücke, gespielt von unseren erfahrenen Darstellern.
             a.service(href="/jugendtheater")
                 img(src="/images/IconKinder.svg" alt="Kindertheater Icon")
                 h3 Kinder Theater
-                p Werden Sie Teil von faszinierenden Vorführungen unserer Nachwuchstalente.
+                p Werden Sie Teil faszinierender Vorführungen unserer Nachwuchstalente.
             a.service(href="/starkbierfest")
                 img(src="/images/IconSBF.svg" alt="Starkbier Icon")
                 h3 Starkbierfest
                 p Besuchen Sie unser traditionsreiches Starkbierfest.
-
 
     section.team#about
         h2 Unsere Vorstandschaft
@@ -40,25 +47,26 @@ block content
             if vorstandschaft.length
                 each mitglied in vorstandschaft
                     .team-member
-                        img(src=(mitglied.Bild && mitglied.Bild.url ? url + mitglied.Bild.url : url + '/images/placeholder.jpg'), alt=mitglied.Name)
+                        img(
+                            src=(mitglied.Bild && mitglied.Bild.url ? url + mitglied.Bild.url : url + '/images/placeholder.jpg'),
+                            alt=mitglied.Name
+                        )
                         h3= mitglied.Name || "Unbekannt"
                         p= mitglied.Position || "Keine Angabe"
             else
                 p Aktuell keine Daten verfügbar.
 
-
-
-
     section.anfahrt#anfahrt
         h2 Anfahrt
-        div.maps
+        .maps
             #display-google-map
-                iframe(frameborder="0", src="https://www.google.com/maps/embed/v1/place?q=Schwoagara+Dorfbühne+Kunst+und+Kultur+e.V.&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8")
+                iframe(
+                    frameborder="0",
+                    src="https://www.google.com/maps/embed/v1/place?q=Schwoagara+Dorfbühne+Kunst+und+Kultur+e.V.&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                )
 
 
-
-
-    //KONTAKT-/FOOTER-BEREICH (Platzhalter für Kontaktformular etc.)
+    // KONTAKT-/FOOTER-BEREICH
     section.contact#contact
         h2 Kontakt
         p Schreiben Sie uns gerne eine Mail

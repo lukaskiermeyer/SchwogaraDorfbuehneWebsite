@@ -1,40 +1,60 @@
+// Aus- und Einklappen der Galerie
 function toggleGallery(button) {
-    const details = button.parentElement.nextElementSibling.nextElementSibling;
-    const carousel = button.parentElement.nextElementSibling;
+    // Finde den übergeordneten .bilderarchiv-event-Container
+    const eventContainer = button.closest(".bilderarchiv-event");
 
-    if (details.classList.contains("hidden")) {
-        details.classList.remove("hidden");
-        carousel.style.display = "none";  // Karussell ausblenden
-        button.textContent = "▲";
+    // In diesem Container: Hol dir das Karussell und die Detailansicht
+    const carousel = eventContainer.querySelector(".bilderarchiv-carousel-container");
+    const details = eventContainer.querySelector(".bilderarchiv-details");
+
+    // Prüfen, ob Details aktuell versteckt sind (display: none oder leer)
+    const isHidden = !details.style.display || details.style.display === "none";
+
+    if (isHidden) {
+        // Details einblenden, Karussell ausblenden
+        details.style.display = "block";
+        carousel.style.display = "none";
+        button.textContent = "▲"; // Icon anpassen
     } else {
-        details.classList.add("hidden");
-        carousel.style.display = "flex";  // Karussell wieder anzeigen
-        button.textContent = "▼";
+        // Details ausblenden, Karussell wieder anzeigen
+        details.style.display = "none";
+        carousel.style.display = "flex";
+        button.textContent = "▼"; // Icon zurücksetzen
     }
 }
 
-function scrollLeft(button) {
-    const carousel = button.nextElementSibling.querySelector(".carousel");
-    const itemWidth = carousel.firstElementChild.clientWidth + 10;
-    carousel.style.transition = "transform 0.4s ease-in-out";
-    carousel.style.transform = `translateX(${itemWidth}px)`;
+function bascrollLeft(button) {
+    const eventContainer = button.closest(".bilderarchiv-event");
+    const carousel = eventContainer.querySelector(".bilderarchiv-carousel");
+    const items = carousel.querySelectorAll(".bilderarchiv-carousel-item");
 
-    setTimeout(() => {
-        carousel.appendChild(carousel.firstElementChild);
-        carousel.style.transition = "none";
+    // Letztes Element sofort an den Anfang schieben
+    carousel.insertBefore(items[items.length - 1], items[0]);
+
+    // Vor Animation: kurz transform = '-Breite' → Dann auf 0
+    carousel.style.transition = "none";
+    carousel.style.transform = "translateX(-160px)"; // 160px: Breite + gap
+    requestAnimationFrame(() => {
+        carousel.style.transition = "transform 0.4s ease-in-out";
         carousel.style.transform = "translateX(0)";
-    }, 400);
+    });
 }
 
-function scrollRight(button) {
-    const carousel = button.previousElementSibling.querySelector(".carousel");
-    const itemWidth = carousel.firstElementChild.clientWidth + 10;
-    carousel.style.transition = "transform 0.4s ease-in-out";
-    carousel.style.transform = `translateX(-${itemWidth}px)`;
 
+function bascrollRight(button) {
+    console.log("RRR");
+    const eventContainer = button.closest(".bilderarchiv-event");
+    const carousel = eventContainer.querySelector(".bilderarchiv-carousel");
+    const items = carousel.querySelectorAll(".bilderarchiv-carousel-item");
+
+    // Slide nach links: transform -160px
+    carousel.style.transition = "transform 0.4s ease-in-out";
+    carousel.style.transform = "translateX(-160px)";
+
+    // Nach der Animation: Erstes Element ans Ende verschieben
     setTimeout(() => {
-        carousel.prepend(carousel.lastElementChild);
         carousel.style.transition = "none";
+        carousel.appendChild(items[0]);
         carousel.style.transform = "translateX(0)";
     }, 400);
 }
