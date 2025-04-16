@@ -5,11 +5,10 @@ block content
         .hero-image
             img(src="/images/logo.gif" alt="Theater")
         .hero-text
-            h1 Herzlich Wilkommen bei der
+            h1 Herzlich Willkommen bei der
             h2 Schwoagara Dorfbühne
-            h3 Kunst und Kultur e.V.
-            p Erleben Sie die Magie des Theaters mit der Schwoagara Dorfbühne.
-                | Nehmen Sie an kulturellen Veranstaltungen und Aufführungen teil.
+            h2 Kunst und Kultur e.V.
+            p Erleben Sie die Magie des Theaters mit der Schwoagara Dorfbühne. Nehmen Sie an kulturellen Veranstaltungen und Aufführungen teil.
             button.btn.btn-primary(onclick="location.href='#anfahrt'") Anfahrt
             button.btn.btn-secondary(onclick="location.href='#contact'") Kontakt
 
@@ -34,7 +33,7 @@ block content
                 p Genießen Sie unsere mitreißenden Stücke, gespielt von unseren erfahrenen Darstellern.
             a.service(href="/jugendtheater")
                 img(src="/images/IconKinder.svg" alt="Kindertheater Icon")
-                h3 Kinder Theater
+                h3 Familientheater
                 p Werden Sie Teil faszinierender Vorführungen unserer Nachwuchstalente.
             a.service(href="/starkbierfest")
                 img(src="/images/IconSBF.svg" alt="Starkbier Icon")
@@ -48,7 +47,7 @@ block content
                 each mitglied in vorstandschaft
                     .team-member
                         img(
-                            src=(mitglied.Bild && mitglied.Bild.url ? url + mitglied.Bild.url : url + '/images/placeholder.jpg'),
+                            src=(mitglied.Bild && mitglied.Bild.url ? mitglied.Bild.url : null),
                             alt=mitglied.Name
                         )
                         h3= mitglied.Name || "Unbekannt"
@@ -58,6 +57,10 @@ block content
 
     section.anfahrt#anfahrt
         h2 Anfahrt
+        p Schwoagara Dorfbühne Kunst und Kultur e.V.,
+        p Mühlweg 5,
+        p 93333 Neustadt an der Donau
+
         .maps
             #display-google-map
                 iframe(

@@ -32,7 +32,7 @@ async function fetchStrapiData(endpoint) {
 // Startseite
 app.get("/", async (req, res) => {
     const vorstandschaft = await fetchStrapiData("vorstandschafts") || [];
-    res.render("index", { vorstandschaft, url: process.env.STRAPI_URL });
+    res.render("index", { vorstandschaft});
 });
 
 
@@ -55,7 +55,7 @@ app.get("/karten", async(req, res) => {
 app.get("/verein", async(req, res) => {
     const antrag = await fetchStrapiData("mitgliedsantrag");
     const satzung = await fetchStrapiData("satzung");
-    res.render("verein", {antrag, satzung, url: process.env.STRAPI_URL});
+    res.render("verein", {antrag, satzung, url: ""});
 });
 
 
@@ -63,7 +63,7 @@ app.get("/verein", async(req, res) => {
 // Kulturboten
 app.get("/kulturbote", async (req, res) => {
     const kulturboten = await fetchStrapiData("kulturbotes");
-    res.render("kulturbote", { kulturboten, url: process.env.STRAPI_URL });
+    res.render("kulturbote", { kulturboten, url: "" });
 });
 
 // Theater
@@ -102,10 +102,10 @@ app.get("/theater", async (req, res) => {
             });
         }
 
-        res.render("theater", { theaterstuecke, url: process.env.STRAPI_URL, sort, order });
+        res.render("theater", { theaterstuecke, url: "", sort, order });
     } catch (error) {
         console.error("Fehler beim Abrufen der Theaterstücke:", error);
-        res.render("theater", { theaterstuecke: [], url: process.env.STRAPI_URL, sort: "", order: "" });
+        res.render("theater", { theaterstuecke: [], url: "", sort: "", order: "" });
     }
 });
 
@@ -122,7 +122,7 @@ app.get("/theater/:id", async (req, res) => {
         return res.status(404).send("Theaterstück nicht gefunden");
     }
 
-    res.render("theaterdetails", { theater, url: process.env.STRAPI_URL });
+    res.render("theaterdetails", { theater, url: "" });
 });
 
 
@@ -161,10 +161,10 @@ app.get("/jugendtheater", async (req, res) => {
             });
         }
 
-        res.render("jugendtheater", { jugendtheaterStuecke, url: process.env.STRAPI_URL, sort, order });
+        res.render("jugendtheater", { jugendtheaterStuecke, url: "", sort, order });
     } catch (error) {
         console.error("Fehler beim Abrufen der Theaterstücke:", error);
-        res.render("jugendtheater", { jugendtheaterStuecke: [], url: process.env.STRAPI_URL, sort: "", order: "" });
+        res.render("jugendtheater", { jugendtheaterStuecke: [], url: "", sort: "", order: "" });
     }
 });
 
@@ -175,7 +175,7 @@ app.get("/jugendtheater/:id", async (req, res) => {
     if (!theater) return res.status(404).send("Jugendtheaterstück nicht gefunden");
 
     console.log(process.env.STRAPI_URL+theater.Bilder[0].url)
-    res.render("jugendtheaterdetails", { theater, url: process.env.STRAPI_URL });
+    res.render("jugendtheaterdetails", { theater, url: "" });
 
 });
 
@@ -205,10 +205,10 @@ app.get("/starkbierfest", async (req, res) => {
             });
         }
 
-        res.render("starkbierfest", { starkbierfeste, url: process.env.STRAPI_URL, sort, order });
+        res.render("starkbierfest", { starkbierfeste, url: "", sort, order });
     } catch (error) {
         console.error("Fehler beim Abrufen der Theaterstücke:", error);
-        res.render("starkbierfest", { starkbierfeste: [], url: process.env.STRAPI_URL, sort: "", order: "" });
+        res.render("starkbierfest", { starkbierfeste: [], url: "", sort: "", order: "" });
     }
 });
 
@@ -218,13 +218,13 @@ app.get("/starkbierfest/:jahr", async (req, res) => {
 
     if(!fest) return res.status(404).send("Starkbierfest nicht gefunden");
 
-    res.render("starkbierfestdetails", {fest, url: process.env.STRAPI_URL });
+    res.render("starkbierfestdetails", {fest, url: "" });
 });
 
 // Bilderarchiv
 app.get("/bilderarchiv", async (req, res) => {
     const archiv = await fetchStrapiData("bilderarchivs") || [];
-    res.render("archiv", { archiv, url: process.env.STRAPI_URL });
+    res.render("archiv", { archiv, url: "" });
 });
 
 // Weitere statische Seiten

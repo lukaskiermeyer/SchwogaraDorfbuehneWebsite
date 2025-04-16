@@ -103,6 +103,7 @@ html, body{
     color: var(--black);
 }
 
+
 .hero-text p {
     font-family: 'FunnelDisplay', sans-serif;
     margin-bottom: 1.5rem;
@@ -358,6 +359,7 @@ html, body{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 #display-google-map {
