@@ -3,14 +3,15 @@ extends layout
 block content
     .starkbier-container
             .theater-header
-                .sort-container
-                    .sort-dropdown
-                        button.sort-button Sortieren
-                        .sort-menu
-                            a(href="/starkbierfest?sort=year&order=asc") Jahr (aufsteigend)
-                            a(href="/starkbierfest?sort=year&order=desc") Jahr (absteigend)
-                .headerdetails
-                    h1 Starkbierfeste
+                .theater-header-container
+                    .headerdetails
+                        h1 Starkbierfeste
+                    .sort-container
+                        .sort-dropdown
+                            button.sort-button Sortieren
+                            .sort-menu
+                                a(href="/starkbierfest?sort=year&order=asc") Jahr (aufsteigend)
+                                a(href="/starkbierfest?sort=year&order=desc") Jahr (absteigend)
 
             if starkbierfeste
                 .starkbier-grid

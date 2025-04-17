@@ -2,25 +2,24 @@ extends layout
 
 block content
             .jugendtheater-container
+                    .jugendtheater-header
+                        .headertext
+                            h1 Jugendtheater Archiv
+                        .sort-container
+                            .sort-dropdown
+                                button.sort-button Sortieren
+                                .sort-menu
+                                    a(href="/jugendtheater?sort=title&order=asc") Titel (A–Z)
+                                    a(href="/jugendtheater?sort=title&order=desc") Titel (Z–A)
+                                    a(href="/jugendtheater?sort=year&order=asc") Jahr (aufsteigend)
+                                    a(href="/jugendtheater?sort=year&order=desc") Jahr (absteigend)
 
 
-            .theater-header
-                .sort-container
-                    .sort-dropdown
-                        button.sort-button Sortieren
-                        .sort-menu
-                            a(href="/jugendtheater?sort=title&order=asc") Titel (A–Z)
-                            a(href="/jugendtheater?sort=title&order=desc") Titel (Z–A)
-                            a(href="/jugendtheater?sort=year&order=asc") Jahr (aufsteigend)
-                            a(href="/jugendtheater?sort=year&order=desc") Jahr (absteigend)
-                .headertext
-                    h1 Jugendtheater Archiv
-
-            if jugendtheaterStuecke.length
-                .jugendtheater-grid
-                    each stueck in jugendtheaterStuecke
-                        a.jugendtheater-card(href=`/jugendtheater/${stueck.id}`)
-                            img(src=`${url}${stueck.randomBild}`, alt=stueck.Titel)
-                            h3= stueck.Titel
-            else
-                p Es sind derzeit keine Jugendtheaterstücke verfügbar.
+                    if jugendtheaterStuecke.length
+                        .jugendtheater-grid
+                            each stueck in jugendtheaterStuecke
+                                a.jugendtheater-card(href=`/jugendtheater/${stueck.id}`)
+                                    img(src=`${stueck.randomBild}`, alt=stueck.Titel)
+                                    h3= stueck.Titel
+                    else
+                        p Es sind derzeit keine Jugendtheaterstücke verfügbar.

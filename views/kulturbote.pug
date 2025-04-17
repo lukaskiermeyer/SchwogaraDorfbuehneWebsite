@@ -10,8 +10,8 @@ block content
             if kulturboten && kulturboten.length
                 each bote in kulturboten
                     if bote.KulturbotePDF && bote.KulturbotePDF.url
-                        a.kulturbote-card(href=`${url}${bote.KulturbotePDF.url}`, target="_blank")
-                            span= "Kulturbote " + bote.KulturbotePDF.name.replace('.pdf', '')
+                        a.kulturbote-card(href=`${bote.KulturbotePDF.url}`, target="_blank")
+                            span= "Kulturbote " + bote.Nummer
                     else
                         .kulturbote-card
                             span Kein Dokument vorhanden

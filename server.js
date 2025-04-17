@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const path = require("path");
 const child_process = require("child_process");
+const { marked } = require('marked');
 require("dotenv").config();
 
 const app = express();
@@ -32,6 +33,7 @@ async function fetchStrapiData(endpoint) {
 // Startseite
 app.get("/", async (req, res) => {
     const vorstandschaft = await fetchStrapiData("vorstandschafts") || [];
+
     res.render("index", { vorstandschaft});
 });
 
@@ -55,7 +57,19 @@ app.get("/karten", async(req, res) => {
 app.get("/verein", async(req, res) => {
     const antrag = await fetchStrapiData("mitgliedsantrag");
     const satzung = await fetchStrapiData("satzung");
-    res.render("verein", {antrag, satzung, url: ""});
+    const gruppenFoto = await fetchStrapiData("Vorstandschaftsfoto");
+    const geschichteData = await fetchStrapiData("Unsere-Geschichte");
+    let geschichteHtml = '<p>Geschichte konnte nicht geladen werden.</p>'; // Fallback-HTML
+
+
+    if (geschichteData && geschichteData.Geschichte) {
+        const markdownContent = geschichteData.Geschichte;
+        geschichteHtml = marked.parse(markdownContent); // Wandle Markdown in HTML um
+    } else {
+        console.warn("Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+    }
+
+    res.render("verein", {antrag, satzung, gruppenFoto,geschichteHtml});
 });
 
 
@@ -63,7 +77,20 @@ app.get("/verein", async(req, res) => {
 // Kulturboten
 app.get("/kulturbote", async (req, res) => {
     const kulturboten = await fetchStrapiData("kulturbotes");
-    res.render("kulturbote", { kulturboten, url: "" });
+
+    kulturboten.sort((a, b) => {
+        const nummerA = a.Nummer;
+        const nummerB = b.Nummer;
+
+
+        if (typeof nummerA !== 'number' && typeof nummerB !== 'number') return 0; // Beide nicht vorhanden/gültig -> gleich
+        if (typeof nummerA !== 'number') return 1; // Nur A nicht vorhanden/gültig -> A nach hinten
+        if (typeof nummerB !== 'number') return -1; // Nur B nicht vorhanden/gültig -> B nach hinten
+
+        return nummerA - nummerB;
+    });
+
+    res.render("kulturbote", { kulturboten});
 });
 
 // Theater
@@ -76,11 +103,17 @@ app.get("/theater", async (req, res) => {
 
         // Zufälliges Bild aus der Bilderliste extrahieren
         theaterstuecke.forEach(stueck => {
-            if (stueck.Bilder && stueck.Bilder.length > 0) {
-                const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
-                stueck.randomBild = stueck.Bilder[randomIndex].url;
-            } else {
-                stueck.randomBild = null;
+
+            if(stueck.Titelbild){
+                stueck.randomBild = stueck.Titelbild;
+            }
+            else{
+                if (stueck.Bilder && stueck.Bilder.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
+                    stueck.randomBild = stueck.Bilder[randomIndex].url;
+                } else {
+                    stueck.randomBild = null;
+                }
             }
         });
 
@@ -117,12 +150,26 @@ app.get("/theater", async (req, res) => {
 app.get("/theater/:id", async (req, res) => {
     const theaterstuecke = await fetchStrapiData("theaterstuecke"); // Alle Theaterstücke abrufen
     const theater = theaterstuecke.find(t => t.id === parseInt(req.params.id)); // Das spezifische Theaterstück nach ID finden
-
+    console.log(theater);
     if (!theater) {
         return res.status(404).send("Theaterstück nicht gefunden");
     }
 
-    res.render("theaterdetails", { theater, url: "" });
+    const beschreibung = theater.Beschreibung;
+
+
+
+    if (beschreibung) {
+
+        beschreibungHtml = marked.parse(beschreibung); // Wandle Markdown in HTML um
+
+    } else {
+        console.warn("Impressum Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+    }
+
+    console.log(beschreibungHtml);
+
+    res.render("theaterdetails", { theater, beschreibungHtml });
 });
 
 
@@ -136,12 +183,20 @@ app.get("/jugendtheater", async (req, res) => {
 
         // Zufälliges Bild aus der Bilderliste extrahieren
         jugendtheaterStuecke.forEach(stueck => {
-            if (stueck.Bilder && stueck.Bilder.length > 0) {
-                const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
-                stueck.randomBild = stueck.Bilder[randomIndex].url;
-            } else {
-                stueck.randomBild = null;
-            }
+
+                if(stueck.Titelbild){
+                    console.log(stueck.Titelbild);
+                    stueck.randomBild = stueck.Titelbild.url;
+                }
+                else{
+                    if (stueck.Bilder && stueck.Bilder.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * stueck.Bilder.length);
+                        stueck.randomBild = stueck.Bilder[randomIndex].url;
+                    } else {
+                        stueck.randomBild = null;
+                    }
+                }
+
         });
         // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
         if (sort === "title") {
@@ -161,10 +216,10 @@ app.get("/jugendtheater", async (req, res) => {
             });
         }
 
-        res.render("jugendtheater", { jugendtheaterStuecke, url: "", sort, order });
+        res.render("jugendtheater", { jugendtheaterStuecke, sort, order });
     } catch (error) {
         console.error("Fehler beim Abrufen der Theaterstücke:", error);
-        res.render("jugendtheater", { jugendtheaterStuecke: [], url: "", sort: "", order: "" });
+        res.render("jugendtheater", { jugendtheaterStuecke: [], sort: "", order: "" });
     }
 });
 
@@ -172,10 +227,19 @@ app.get("/jugendtheater/:id", async (req, res) => {
     const theaterstuecke = await fetchStrapiData(`jugendtheaterstuecke`) ||[];
     const theater = theaterstuecke.find(t => t.id === parseInt(req.params.id)); // Das spezifische Theaterstück nach ID finden
 
-    if (!theater) return res.status(404).send("Jugendtheaterstück nicht gefunden");
+    const beschreibung = theater.Beschreibung;
 
-    console.log(process.env.STRAPI_URL+theater.Bilder[0].url)
-    res.render("jugendtheaterdetails", { theater, url: "" });
+    let beschreibungHtml = null;
+
+    if (beschreibung) {
+
+        beschreibungHtml = marked.parse(beschreibung); // Wandle Markdown in HTML um
+
+    } else {
+        console.warn("Impressum Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+    }
+
+    res.render("jugendtheaterdetails", {theater, beschreibungHtml});
 
 });
 
@@ -218,7 +282,22 @@ app.get("/starkbierfest/:jahr", async (req, res) => {
 
     if(!fest) return res.status(404).send("Starkbierfest nicht gefunden");
 
-    res.render("starkbierfestdetails", {fest, url: "" });
+
+    const beschreibung = fest.Beschreibung;
+
+    let beschreibungHtml = null;
+
+    if (beschreibung) {
+
+        beschreibungHtml = marked.parse(beschreibung);
+
+    } else {
+        console.warn("Impressum Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+    }
+
+
+
+    res.render("starkbierfestdetails", {fest, beschreibungHtml});
 });
 
 // Bilderarchiv
@@ -227,10 +306,64 @@ app.get("/bilderarchiv", async (req, res) => {
     res.render("archiv", { archiv, url: "" });
 });
 
-// Weitere statische Seiten
-app.get("/links", (req, res) => res.render("links"));
-app.get("/impressum", (req, res) => res.render("impressum"));
-app.get("/datenschutz", (req, res) => res.render("datenschutz"));
+app.get("/impressum", async (req, res, next) => { // Füge 'next' für Error Handling hinzu
+    try {
+        const impressumData = await fetchStrapiData("impressum"); // Hole die Daten
+
+        let impressumHtml = '<p>Impressum konnte nicht geladen werden.</p>'; // Fallback-HTML
+
+
+        if (impressumData && impressumData.Impressum) {
+            const markdownContent = impressumData.Impressum;
+            impressumHtml = marked.parse(markdownContent); // Wandle Markdown in HTML um
+        } else {
+            console.warn("Impressum Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+        }
+
+        // Übergebe das generierte HTML an das Template
+        res.render("impressum", {
+               impressumHtml: impressumHtml // Das HTML an Pug übergeben
+        });
+
+    } catch (error) {
+        console.error("Fehler in /impressum Route:", error);
+        next(error); // Leite Fehler an Express Error Handler weiter
+    }
+});
+
+app.get("/datenschutz", async (req, res, next) => { // Füge 'next' für Error Handling hinzu
+    try {
+        const datenschutzData = await fetchStrapiData("datenschutz");
+
+        let datenschutzHtml = '<p>Datenschutzerklärung konnte nicht geladen werden.</p>'; // Fallback-HTML
+
+        if (datenschutzData && datenschutzData.Datenschutz) {
+            const markdownContent = datenschutzData.Datenschutz;
+
+
+            datenschutzHtml = marked.parse(markdownContent); // Wandle Markdown in HTML um
+
+        } else {
+            console.warn("Datenschutz Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+        }
+
+        // Übergebe das generierte HTML an das Template 'datenschutz.pug'
+        res.render("datenschutz", { // Sicherstellen, dass das richtige Template gerendert wird
+            title: "Datenschutzerklärung", // Optional: Titel
+            datenschutzHtml: datenschutzHtml // Das HTML an Pug übergeben
+        });
+
+    } catch (error) {
+        console.error("Fehler in /datenschutz Route:", error);
+        next(error); // Leite Fehler an Express Error Handler weiter
+    }
+});
+
+
+app.get("/links", async (req, res) =>{
+    const links = await fetchStrapiData("linkss");
+    res.render("links", {links});
+})
 
 // Server starten
 app.listen(PORT, () => {

@@ -10,17 +10,15 @@ block content
                 img(src="/images/Pfeil.svg", alt="Vorherige Folie")
             .carousel
                 each bild in theater.Bilder
-                    a(href=`${url}${bild.url}`, target="_blank")
-                        img.carousel-slide(src=`${url}${bild.url}`)
+                    a(href=`${bild.url}`, target="_blank")
+                        img.carousel-slide(src=`${bild.url}`)
             button.carousel-next
                 img(src="/images/Pfeil.svg", alt="Nächste Folie")
-        if theater.Beschreibung
+        if beschreibungHtml
             .theater-description
-                each line in theater.Beschreibung.split(/\r?\n+/)
-                    if line.match(/^##\s*(.*)/)
-                        h3= line.replace(/^##\s*/, "")
-                    else if line.trim() !== ""
-                        p= line
+              if beschreibungHtml
+                    != beschreibungHtml
+
 
 
         script(src="/js/carousel.js")

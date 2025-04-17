@@ -152,19 +152,28 @@ html, body{
 
 
 /* Instagram-Bereich */
-.instagram {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 0;
-}
-
-.instagram-link {
+.instagram-link
+{
     text-decoration: none;
     color: inherit;
 }
 
+.instagram {
+    display: flex;          /* Elemente nebeneinander anordnen */
+    justify-content: center; /* Gruppe zentrieren */
+    align-items: center;    /* Vertikal zentrieren */
+    flex-wrap: wrap;       /* Umbruch auf kleinen Bildschirmen erlauben */
+    gap: 2rem;             /* Abstand zwischen Insta-Box und Prompt */
+    padding: 2rem 1rem;    /* Etwas Innenabstand */
+}
+
+/* Anpassung für den bestehenden Container */
 .instagram-container {
+    /* margin: 1rem auto; <-- Entfernen oder anpassen, da Flexbox jetzt zentriert */
+    margin: 0; /* Kein Außenabstand mehr nötig für Zentrierung */
+    /* Optional: Maximale Breite leicht reduzieren, um Platz zu schaffen */
+    max-width: 450px;
+    /* Bestehende Stile wie border, shadow, hover bleiben erhalten */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -173,13 +182,43 @@ html, body{
     border: 1px solid var(--light-gray);
     border-radius: 10px;
     background-color: var(--background-color);
-    width: 100%;
-    max-width: 600px;
-    margin: 1rem auto;
+    /* width: 100%; <-- Entfernen oder anpassen */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     text-align: center;
 }
+
+/* NEU: Stile für den Prompt-Container (Pfeil + Text) */
+.instagram-prompt {
+    display: flex;
+    flex-direction: column; /* Text über Pfeil */
+    align-items: center;    /* Horizontal zentrieren */
+    text-align: center;
+}
+
+/* NEU: Stil für den "Folg uns..." Text */
+.instagram-follow-text {
+    font-size: 1.3rem; /* Etwas größer */
+    font-weight: bold;
+    color: var(--text-color); /* Oder eine deiner Akzentfarben wie var(--primary-color) */
+    margin-bottom: 0.5rem; /* Abstand zum Pfeil */
+    /* Optional: Eine passende "skizzierte" Schriftart, falls vorhanden */
+    /* font-family: 'DeineSkizzenSchrift', cursive; */
+}
+
+/* NEU: Stil für das Pfeil-Bild */
+.instagram-arrow {
+    width: 120px; /* Breite des Pfeils anpassen */
+    height: auto; /* Höhe automatisch anpassen */
+    /* Optional: Drehung, falls der Pfeil nicht perfekt passt */
+    /* transform: rotate(-10deg); */
+}
+
+
+
+
+
+/* ... (Restliche CSS-Regeln bleiben bestehen) ... */
 .instagram-content{
     display: flex;
     flex-direction: row;
@@ -503,6 +542,32 @@ html, body{
     line-height: 1.6;
 }
 
+/* Styling für das Gruppenfoto auf der Vereinsseite */
+.gruppenfoto-container {
+    width: 100%;
+    max-width: 800px; /* Gleiche Breite wie .verein-info oder anpassen */
+    margin: 2rem auto; /* Zentriert und gibt Abstand nach oben/unten */
+    text-align: center; /* Zentriert das Bild, falls es schmaler als der Container ist */
+
+}
+
+.gruppenfoto {
+    width: 100%; /* Bild füllt die Containerbreite */
+    height: auto; /* Seitenverhältnis beibehalten */
+    display: block; /* Verhindert möglichen Leerraum unter dem Bild */
+    border-radius: 8px; /* Optional: Abgerundete Ecken */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional: Leichter Schatten */
+    border: 1px solid black;
+}
+
+/* Responsive Anpassung */
+@media (max-width: 840px) { /* Beispiel-Breakpoint, anpassen! */
+    .gruppenfoto-container {
+        max-width: 90%; /* Etwas mehr Breite auf kleineren Screens erlauben */
+        margin: 1.5rem auto;
+    }
+}
+
 /* Container für Karten */
 .options-container {
     display: flex;
@@ -604,53 +669,140 @@ html, body{
 
 
 
-.kulturbote-container{
-    margin: 30px;
-}
-.kultorbote-header{
-    margin-top: 20px;
-    align-items: center;
-    text-align: center;
+/* --- Verbesserungen Kulturbote Archiv --- */
+
+/* Container und Header */
+.kulturbote-container {
+    max-width: 1100px; /* Breite des Hauptcontainers */
+    margin: 2rem auto; /* Zentrieren, Abstand oben/unten */
+    padding: 1rem;
 }
 
-.kulturbote-container a{
-    text-decoration: none;
-    color: var(--black);
+/* Korrektur für evtl. Tippfehler im Klassennamen + Styling */
+.kultorbote-header, /* Tippfehler-Klasse */
+.kulturbote-header { /* Korrigierte Klasse */
+    text-align: center;
+    margin-bottom: 3.5rem; /* Mehr Abstand nach unten */
 }
+
+.kultorbote-header h1,
+.kulturbote-header h1 {
+    font-size: 2.8rem; /* Gleiche Größe wie andere H1 */
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    /* font-family: 'Bavarian', sans-serif; /* Optional */
+}
+
+.kultorbote-header p,
+.kulturbote-header p {
+    font-size: 1.1rem;
+    color: var(--light-gray);
+    max-width: 650px; /* Zeilenlänge begrenzen */
+    margin: 0 auto; /* Zentrieren */
+    line-height: 1.6;
+}
+
+/* Auswahlbereich - Umstellung auf Grid-Layout */
 .kulturbote-selection {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    display: grid;
+    /* Responsive Spalten: Mind. 180px breit, max. 1fr (füllt verfügbaren Platz) */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2rem; /* Abstand zwischen den Karten */
+    justify-content: center; /* Zentriert die Grid-Items, falls eine Zeile nicht voll ist */
 }
 
+/* Basis-Styling für jede Kulturbote-Karte (Link oder Div) */
 .kulturbote-card {
-    background-color: #fdfdfd;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--light-yellow);
-    cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    background-color: #ffffff;
+    border-radius: 10px; /* Etwas rundere Ecken */
+    padding: 1.5rem 1rem; /* Mehr Innenabstand */
     text-align: center;
-    width: 100px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Weicher Schatten */
+    border: 1px solid #e5e5e5; /* Dezenter Rand */
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertikal zentrieren */
+    align-items: center; /* Horizontal zentrieren */
+    min-height: 140px; /* Mindesthöhe für Gleichmäßigkeit */
+    position: relative; /* Für Icon-Positionierung */
 }
 
-.kulturbote-card:hover {
-    transform: scale(1.05);
-    border-color: var(--primary-color);
+/* Speziell für klickbare Karten (Links) */
+a.kulturbote-card {
+    text-decoration: none;
+    color: var(--text-color); /* Standard-Textfarbe */
 }
 
-/* Hervorhebung der aktiven Auswahl */
-.kulturbote-card.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-    transform: scale(1.05);
+/* Hover- und Fokus-Effekt für klickbare Karten */
+a.kulturbote-card:hover,
+a.kulturbote-card:focus { /* Fokus-Styling für Barrierefreiheit */
+    transform: translateY(-6px); /* Anheben-Effekt */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Stärkerer Schatten */
+    border-color: var(--gold); /* Akzentfarbe für den Rand */
+    color: var(--primary-color); /* Textfarbe ändern (z.B. rot) */
+    outline: 2px solid transparent; /* Optional: Standard-Fokus-Outline entfernen */
+    outline-offset: 2px;
+}
+a.kulturbote-card:focus-visible { /* Moderner Fokus-Indikator */
+    box-shadow: 0 0 0 3px var(--light-yellow); /* Fokus-Ring in Akzentfarbe */
 }
 
+
+/* PDF Icon hinzufügen (mit ::before Pseudo-Element) */
+a.kulturbote-card::before {
+    /* Methode 1: Simples Emoji als Icon */
+    content: '📰'; /* Zeitungs-Emoji, oder '📄' für Dokument */
+    font-size: 2.5rem; /* Größe des Icons */
+    margin-bottom: 1rem; /* Abstand zum Text */
+    display: block;
+
+    /* Methode 2: SVG-Icon als Hintergrund (flexibler) */
+    /*
+    content: '';
+    display: block;
+    width: 40px;
+    height: 45px;
+    background-image: url('/images/pdf-icon.svg'); // <-- PFAD ZU DEINEM ICON ANPASSEN
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 1rem;
+    */
+}
+
+/* Text innerhalb der Karte */
+.kulturbote-card span {
+    font-size: 1rem;
+    font-weight: 600; /* Etwas fetter */
+    line-height: 1.4;
+    display: block; /* Stellt sicher, dass es richtig umbricht */
+}
+
+/* Styling für nicht-klickbare Karten (wenn PDF fehlt) */
+.kulturbote-selection div.kulturbote-card {
+    background-color: #f8f9fa; /* Heller Hintergrund */
+    opacity: 0.6; /* Ausgegraut */
+    color: #6c757d; /* Graue Textfarbe */
+    box-shadow: none;
+    cursor: not-allowed; /* Mauszeiger anpassen */
+    border-color: #e0e0e0;
+}
+.kulturbote-selection div.kulturbote-card::before {
+    content: '🚫'; /*Alternatives Symbol*/
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+
+/* Styling für die Meldung, wenn keine Kulturboten da sind */
+.kulturbote-selection > p {
+    grid-column: 1 / -1; /* Über alle Spalten erstrecken */
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--light-gray);
+    padding: 3rem 1rem;
+}
 
 
 .theater-container{
@@ -734,10 +886,6 @@ html, body{
 }
 
 
-/* Dropdown-Menü innerhalb des Theater-Containers */
-.sort-container {
- margin-left: 200px;
-}
 
 .sort-dropdown {
     position: relative;
@@ -748,7 +896,7 @@ html, body{
 .sort-button {
     background-color: var(--black);
     color: var(--background-color);
-    padding: 8px 12px;
+    padding: 14px 18px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -861,24 +1009,17 @@ html, body{
     transform: scaleX(-1);
 }
 
-
-
-
-
 /* Kindertheater Anpassungen - Analog zum Erwachsenentheater */
 .jugendtheater-container {
-    max-width: 1000px;
     margin: 20px auto;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .jugendtheater-header {
     display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 2.5rem;
+    justify-content: center;   /* Zentriert die Gruppe (Titel + Button) */
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .jugendtheater-text {
@@ -976,14 +1117,37 @@ html, body{
 
 
 
-.starkbier-container {
+.starkbier-container .headerdetails {
+    margin: 0;
+    padding: 0;
     text-align: center;
-    padding: 4rem 2rem;
-    background: #f9f9f9;
 }
 
-.starkbier-container .theater-header{
-    margin: 0;
+.theater-header-container{
+
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 2.5rem;
+    justify-content: center;   /* Zentriert die Gruppe (Titel + Button) */
+    align-items: center;
+}
+
+
+
+.starkbier-container .theater-header {
+    display: flex;             /* Hauptachse: Horizontal */
+    flex-wrap: wrap;           /* Umbruch auf kleinen Screens */
+    padding: 2rem 1rem;        /* Innenabstand */
+    margin-bottom: 3rem;       /* Abstand zum Grid darunter */
+
+    background-image: url('../images/bavarian1.svg');
+    background-repeat: repeat;
+
+    /* Bayrisches Element: Rahmen (optional) */
+    border-top: 4px solid #0066b2; /* Bayrisch Blau */
+    border-bottom: 4px solid #0066b2; /* Bayrisch Blau */
+    background-color: #f8f8f8; /* Heller Hintergrund, falls kein Muster verwendet wird */
+
 }
 
 .starkbier-container h1 {
@@ -991,6 +1155,12 @@ html, body{
     font-size: 48px;
     color: var(--black);
     text-shadow: 2px 2px #a8dadc;
+
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: white;
+
 }
 
 .starkbier-grid {
@@ -1076,6 +1246,7 @@ html, body{
     font-size: 18px;
     line-height: 1.5;
 }
+
 
 .back-button {
     display: inline-block;
@@ -1247,173 +1418,244 @@ html, body{
 
 
 
-.bilderarchiv-h1{
-    margin-top: 30px;
+/* --- Verbesserungen Bilderarchiv --- */
+
+/* Hauptüberschrift */
+h1.bilderarchiv-h1 {
     text-align: center;
+    margin-top: 2rem; /* Mehr Abstand oben */
+    margin-bottom: 2.5rem; /* Mehr Abstand unten */
+    font-size: 2.8rem; /* Größer */
+    color: var(--text-color); /* Theme-Farbe */
+    /* Optional: font-family: 'Bavarian', sans-serif; */
 }
-/* Container für das Bilderarchiv */
+
+/* Container für alle Events */
 .bilderarchiv-container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1100px; /* Etwas breiter, anpassen nach Bedarf */
+    margin: 0 auto 3rem auto; /* Zentrieren und Abstand unten */
+    padding: 0 1rem; /* Seitlicher Abstand auf kleinen Screens */
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem; /* Größerer Abstand zwischen den Event-Blöcken */
 }
 
-.bilderarchiv-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
+/* Einzelner Event-Block (wird zur "Karte") */
+.bilderarchiv-event {
+    background-color: #ffffff; /* Weißer Hintergrund für die Karte */
+    border-radius: 12px; /* Abgerundete Ecken */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Weicherer Schatten */
+    overflow: hidden; /* Wichtig für border-radius bei Kind-Elementen */
+    border: 1px solid #e0e0e0; /* Dezenter Rand */
 }
 
-/* Header für jedes Event */
+/* Header des Event-Blocks */
 .bilderarchiv-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f1f1f1;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: 2px solid var(--black);
-    box-shadow:  inset 0 0 0 3px var(--gold);
+    background-color: #f8f9fa; /* Heller Hintergrund für den Header */
+    padding: 1.2rem 1.8rem; /* Mehr Innenabstand */
+    cursor: pointer; /* Zeigt an, dass man klicken kann */
+    border-bottom: 1px solid var(--gold); /* Trennlinie */
+    transition: background-color 0.2s ease;
+    /* Alte Border/Shadow entfernen */
+
+    box-shadow: none;
 }
 
+.bilderarchiv-header:hover {
+    background-color: #f1f3f5; /* Leichter Hover-Effekt */
+}
 
+.bilderarchiv-header h2 {
+    margin: 0;
+    font-size: 1.6rem; /* Größere Überschrift */
+    color: var(--text-color);
+    font-weight: 600; /* Etwas fetter */
+}
 
-
+/* Toggle-Button (Auf/Zu) */
 .bilderarchiv-toggle-button {
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 1.4rem; /* Größeres Icon */
     cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    color: var(--gold); /* Rote Theme-Farbe */
+    transition: transform 0.3s ease-out, color 0.2s ease;
 }
 
+.bilderarchiv-toggle-button:hover {
+    color: var(--brown); /* Dunklere Variante beim Hover */
+}
+
+/* Pfeil drehen, wenn Details offen sind (benötigt JS Anpassung, siehe unten) */
+.bilderarchiv-event.active .bilderarchiv-toggle-button {
+    transform: rotate(180deg);
+}
+
+/* Container für das horizontale Karussell */
 .bilderarchiv-carousel-container {
     position: relative;
-    display: flex;
+    display: flex; /* Standardmäßig sichtbar (wenn NICHT active) */
     align-items: center;
-    justify-content: center;
-    overflow: hidden; /* Verhindert, dass die Bilder rausragen */
-    width: 80%;
-    margin: 10px auto;
+    padding: 1.5rem 1rem;
+    background-color: #ffffff;
+    /* Übergang für das Ausblenden hinzufügen */
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.4s ease-out;
+    max-height: 300px; /* Eine Standard-Maximalhöhe für die Transition */
+    opacity: 1;
+    overflow: hidden; /* Wichtig für max-height Transition */
 }
 
+.bilderarchiv-event.active .bilderarchiv-carousel-container {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    /* Optional: border entfernen, wenn es stört beim Kollabieren */
+    /* border: none; */
+}
+
+/* Wrapper für das scrollbare Karussell */
 .bilderarchiv-carousel-wrapper {
-    width: 100%;
-    overflow: hidden; /* Kein Scroll-Balken */
-    position: relative;
+    flex-grow: 1;
+    overflow: hidden; /* Versteckt den Scrollbalken */
+    margin: 0 15px; /* Abstand zu den Pfeilen */
 }
 
+/* Das eigentliche Karussell mit den Bildern */
 .bilderarchiv-carousel {
     display: flex;
-    gap: 10px;
-    transition: transform 0.4s ease-in-out; /* Für sanfte Animation */
+    gap: 15px; /* Abstand zwischen Thumbnails */
+    padding: 5px 0; /* Kleiner vertikaler Abstand */
 }
 
+/* Einzelnes Vorschaubild im Karussell */
 .bilderarchiv-carousel-item {
-    flex: 0 0 auto;
-    width: 150px;
-    height: 100px;
-    border-radius: 8px;
+    flex: 0 0 auto; /* Bilder nicht quetschen/strecken */
+    width: 180px; /* Breite der Thumbnails */
+    height: 120px; /* Höhe der Thumbnails */
+    border-radius: 8px; /* Abgerundete Ecken */
     overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: block;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd; /* Leichter Rand um Bilder */
+}
+
+.bilderarchiv-carousel-item:hover {
+    transform: scale(1.06); /* Leichte Vergrößerung beim Hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .bilderarchiv-carousel-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Bild füllt den Container, ggf. beschnitten */
+    display: block;
 }
 
-/* Buttons */
+/* Karussell Navigationspfeile */
 .bilderarchiv-carousel-prev,
 .bilderarchiv-carousel-next {
-    background: rgba(0,0,0,0.5);
+    background-color: var(--black); /* Schwarzer Hintergrund */
     color: white;
+    opacity: 0.6; /* Leicht transparent */
     border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+    width: 45px; /* Größer */
+    height: 100px;
+    font-size: 1.8rem; /* Größeres Pfeilsymbol */
     cursor: pointer;
-    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    flex-shrink: 0;
     z-index: 10;
 }
 
+.bilderarchiv-carousel-prev{
+    border-radius: 10px 0px 0px 10px;
+}
+.bilderarchiv-carousel-next{
+    border-radius: 0px 10px 10px 0px;
+}
+
+
 .bilderarchiv-carousel-prev:hover,
 .bilderarchiv-carousel-next:hover {
-    background: rgba(0,0,0,0.8);
+    background-color: var(--gold); /* Roter Hintergrund beim Hover */
+    opacity: 1; /* Voll sichtbar */
 }
 
-/* Carousel-Wrapping */
-.bilderarchiv-carousel-wrapper {
-    overflow: hidden;
-    width: 100%;
-    position: relative;
-}
-
-.bilderarchiv-carousel {
-    display: flex;
-    gap: 10px;
-    transition: transform 0.5s ease-in-out;
-    scroll-behavior: smooth;
-}
-
-.bilderarchiv-carousel-item {
-    flex: 0 0 auto;
-    width: 150px;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.bilderarchiv-carousel-item img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-/* Details mit Beschreibung */
+/* Versteckter Detailbereich */
 .bilderarchiv-details {
-    display: none;
-    margin-top: 10px;
+    padding: 0 1.8rem; /* Initial kein vertikales Padding */
+    background-color: #ffffff;
+    border-top: 1px solid #e9ecef;
+    max-height: 0; /* Standardmäßig versteckt (wenn NICHT active) */
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    padding 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.4s ease-in 0.2s; /* Fade-in etwas verzögert */
 }
 
-.bilderarchiv-details.hidden {
-    display: none;
+/* Style wenn Details sichtbar sind (benötigt JS Anpassung) */
+.bilderarchiv-details.active {
+    max-height: 3000px; /* Genug Höhe für Inhalt */
+    padding: 1.8rem; /* Vertikales Padding hinzufügen */
+    opacity: 1;
 }
 
+/* Style für das Grid in den Details */
 .bilderarchiv-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Responsive Spalten */
+    gap: 15px; /* Abstand zwischen Grid-Bildern */
+    margin-bottom: 1.8rem; /* Abstand zur Beschreibung */
 }
 
 .bilderarchiv-gallery a {
     display: block;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .bilderarchiv-gallery a:hover {
-    transform: scale(1.05);
+    transform: translateY(-4px); /* Leichter "Lift"-Effekt */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .bilderarchiv-gallery img {
     width: 100%;
-    height: 120px;
+    height: 130px; /* Höhe der Grid-Bilder */
     object-fit: cover;
-    border-radius: 8px;
+    display: block;
 }
 
-/* Beschreibung */
+/* Beschreibungstext */
 .bilderarchiv-description {
-    margin-top: 20px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: #f8f9fa; /* Heller Hintergrund */
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* Hinweis, wenn keine Bilder verfügbar sind */
+.bilderarchiv-container > p { /* Direkter Nachfahre, falls 'archiv' leer ist */
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--light-gray);
+    padding: 3rem 1rem;
 }
 
 
@@ -1542,3 +1784,29 @@ html, body{
     }
 }
 
+/* Responsiveness für den Instagram-Bereich */
+@media (max-width: 768px) {
+    .instagram {
+        flex-direction: column; /* Untereinander auf kleinen Bildschirmen */
+        gap: 1rem; /* Weniger Abstand */
+    }
+
+    .instagram-prompt {
+        margin-top: 1rem; /* Abstand nach oben zur Insta-Box */
+        order: 2; /* Sicherstellen, dass der Prompt unter der Box ist */
+    }
+    .instagram-link {
+        order: 1; /* Sicherstellen, dass die Box über dem Prompt ist */
+    }
+
+    .instagram-container {
+        max-width: 80%; /* Etwas breiter erlauben */
+    }
+
+    .instagram-arrow {
+        width: 80px; /* Pfeil kleiner machen */
+    }
+    .instagram-follow-text{
+        font-size: 1.1rem;
+    }
+}

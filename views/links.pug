@@ -3,31 +3,16 @@ extends layout
 block content
     h1.links Links
 
-    .links-container
-        .link-card
-            h3 Villa Schwoag (Lokalberichte)
-            a(href="http://www.schwoag.de" target="_blank") www.schwoag.de
-        .link-card
-            h3 Freiwillige Feuerwehr Schwaig
-            a(href="http://www.ffw-schwaig.de" target="_blank") www.ffw-schwaig.de
-        .link-card.no-link
-            h3 Kath. Burschenverein Schwaig
-            a(href="https://www.instagram.com/kbv.schwaig/") www.instagram.com/kbv.schwaig
-        .link-card
-            h3 Hockey Tigers
-            a(href="http://www.hockey-tigers.de" target="_blank") www.hockey-tigers.de
-        .link-card
-            h3 Theaterrunde Volksbühne St. Josef
-            a(href="http://www.theater-im-bauernhof.at" target="_blank") www.theater-im-bauernhof.at
-        .link-card
-            h3 Verband Bayerischer Amateurtheater e.V.
-            a(href="http://www.amateurtheater-bayern.de" target="_blank") www.amateurtheater-bayern.de
-        .link-card
-            h3 Theaterforum
-            a(href="http://forum.amateurtheater-bayern.de" target="_blank") www.forum.amateurtheater-bayern.de
-        .link-card
-            h3 Landesverein für Heimatpflege
-            a(href="http://www.heimat-bayern.de" target="_blank") www.heimat-bayern.de
-        .link-card
-            h3 Laienspiel Niederbayern
-            a(href="http://www.laienspiel-niederbayern.de" target="_blank") www.laienspiel-niederbayern.de
+
+    if links && links.length > 0
+        .links-container
+            each link in links
+                .link-card
+                    h3= link.Name
+                    if link.Link
+                        a(href=link.Link, target="_blank")= link.Link.replace('https://', '')
+                    else
+                        p Kein Link vorhanden
+    else
+
+        p Keine Links zum Anzeigen vorhanden.
