@@ -1126,7 +1126,7 @@ a.kulturbote-card::before {
 .theater-header-container{
 
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: nowrap;
     gap: 2.5rem;
     justify-content: center;   /* Zentriert die Gruppe (Titel + Button) */
     align-items: center;
@@ -1139,7 +1139,7 @@ a.kulturbote-card::before {
     flex-wrap: wrap;           /* Umbruch auf kleinen Screens */
     padding: 2rem 1rem;        /* Innenabstand */
     margin-bottom: 3rem;       /* Abstand zum Grid darunter */
-
+    position: relative;
     background-image: url('../images/bavarian1.svg');
     background-repeat: repeat;
 
@@ -2086,3 +2086,48 @@ h1.bilderarchiv-h1 {
 
 }
 
+@media (max-width: 700px) { /* << BREAKPOINT ANPASSEN */
+
+    /* Passe den Abstand des Headers nach unten an,
+       um Platz für den Button zu schaffen */
+    .starkbier-container .theater-header {
+        /* Der Button wird jetzt außerhalb positioniert,
+           wir brauchen Platz *zwischen* Header und Grid */
+        margin-bottom: 5rem; /* Beispiel: Erhöhter Abstand zum nächsten Element */
+        /* Alternativ: padding-bottom erhöhen */
+    }
+
+    /* Innerer Container zentriert nur noch den Titel */
+    .theater-header-container {
+        /* justify-content: center; bleibt */
+        /* gap wird irrelevant, da nur noch 1 Element im Fluss */
+    }
+
+    .headerdetails h1 {
+        white-space: normal; /* Umbruch im Titel erlauben */
+        font-size: 38px;
+    }
+
+    /* Button Container ABSOLUT POSITIONIEREN */
+    .sort-container {
+        position: absolute;   /* << Aus dem normalen Fluss entfernen */
+        top: 100%;            /* << Oberkante bündig mit Unterkante des Headers */
+        margin-top: 1rem;     /* << Abstand nach unten vom Header */
+        left: 50%;            /* Horizontal zentrieren Schritt 1 */
+        transform: translateX(-50%); /* Horizontal zentrieren Schritt 2 */
+        width: auto;          /* Breite an Inhalt anpassen */
+        max-width: 90%;       /* Maximale Breite auf Mobile */
+        z-index: 5;           /* Stellt sicher, dass er sichtbar ist (ggf. anpassen) */
+    }
+
+    /* Dropdown selbst ggf. anpassen */
+    .sort-dropdown {
+        /* display: block; */ /* Optional: Button über volle Breite des Containers? */
+    }
+
+    /* Menü-Position prüfen (sollte relativ zum Button bleiben) */
+    .sort-menu {
+        /* Positionierung sollte passen */
+        min-width: 200px; /* Ggf. Breite anpassen */
+    }
+}
