@@ -48,18 +48,12 @@ block content
 
     section.team#about
         h2 Unsere Vorstandschaft
-        .team-grid
-            if vorstandschaft.length
-                each mitglied in vorstandschaft
-                    .team-member
-                        img(
-                            src=(mitglied.Bild && mitglied.Bild.url ? mitglied.Bild.url : null),
-                            alt=mitglied.Name
-                        )
-                        h3= mitglied.Name || "Unbekannt"
-                        p= mitglied.Position || "Keine Angabe"
-            else
-                p Aktuell keine Daten verfügbar.
+
+
+        #vorstandschaftLoading(style='text-align: center; padding: 20px;')
+            p Vorstandschaft wird geladen...
+
+        #vorstandschaftContainer.team-grid
 
     section.anfahrt#anfahrt
         h2 Anfahrt
@@ -80,3 +74,7 @@ block content
         h2 Kontakt
         p Schreiben Sie uns gerne eine Mail
         a(href="mailto:dorfbuehne.schwoag@gmail.com") dorfbuehne.schwoag@gmail.com
+
+
+        append scripts
+            script(src='/js/index-client.js')

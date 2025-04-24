@@ -1,7 +1,6 @@
 const express = require("express");
 const axios = require("axios");
 const path = require("path");
-const child_process = require("child_process");
 const { marked } = require('marked');
 require("dotenv").config();
 
@@ -34,7 +33,22 @@ async function fetchStrapiData(endpoint) {
 app.get("/", async (req, res) => {
     const vorstandschaft = await fetchStrapiData("vorstandschafts") || [];
 
-    res.render("index", { vorstandschaft});
+    res.render("index", { });
+});
+
+app.get("/api/vorstandschaft", async (req, res) => {
+    try {
+        const vorstandschaftData = await fetchStrapiData("vorstandschafts"); // API Endpunkt ohne /api/ Präfix
+        if (vorstandschaftData === null) {
+            // Wenn fetchStrapiData null zurückgab (Fehler wurde schon geloggt)
+            return res.status(500).json({ error: "Failed to fetch data from Strapi" });
+        }
+        res.json(vorstandschaftData); // Sende die Daten als JSON
+    } catch (error) {
+        // Zusätzliches Error Handling, falls die Funktion selbst einen Fehler wirft
+        console.error("Fehler im API Endpunkt /api/vorstandschaft:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 
