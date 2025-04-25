@@ -30,8 +30,7 @@ async function fetchStrapiData(endpoint) {
 
 
 // Startseite
-app.get("/", async (req, res) => {
-    const vorstandschaft = await fetchStrapiData("vorstandschafts") || [];
+app.get("/", (req, res) => {
 
     res.render("index", { });
 });
@@ -117,9 +116,10 @@ app.get("/theater", async (req, res) => {
 
         // Zufälliges Bild aus der Bilderliste extrahieren
         theaterstuecke.forEach(stueck => {
-
-            if(stueck.Titelbild){
-                stueck.randomBild = stueck.Titelbild;
+        console.log(stueck);
+            if(stueck.Titelbild != null){
+                stueck.randomBild = stueck.Titelbild[0].url;
+                console.log(stueck.Titelbild.url);
             }
             else{
                 if (stueck.Bilder && stueck.Bilder.length > 0) {
@@ -129,6 +129,7 @@ app.get("/theater", async (req, res) => {
                     stueck.randomBild = null;
                 }
             }
+            //console.log(stueck.randomBild);
         });
 
         // Serverseitige Sortierung: Sortierung nach Titel oder Jahr
@@ -164,24 +165,21 @@ app.get("/theater", async (req, res) => {
 app.get("/theater/:id", async (req, res) => {
     const theaterstuecke = await fetchStrapiData("theaterstuecke"); // Alle Theaterstücke abrufen
     const theater = theaterstuecke.find(t => t.id === parseInt(req.params.id)); // Das spezifische Theaterstück nach ID finden
-    console.log(theater);
+
     if (!theater) {
-        return res.status(404).send("Theaterstück nicht gefunden");
+        res.redirect("/theater");
     }
 
     const beschreibung = theater.Beschreibung;
 
 
 
-    if (beschreibung) {
-
+    if (beschreibung != null ) {
         beschreibungHtml = marked.parse(beschreibung); // Wandle Markdown in HTML um
 
     } else {
-        console.warn("Impressum Markdown-Inhalt nicht gefunden in Strapi-Antwort.");
+        beschreibungHtml = []
     }
-
-    console.log(beschreibungHtml);
 
     res.render("theaterdetails", { theater, beschreibungHtml });
 });
