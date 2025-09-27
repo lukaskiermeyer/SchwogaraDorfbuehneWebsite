@@ -1,7 +1,8 @@
 runtime: nodejs20
-
-
 instance_class: F2
-
-
 entrypoint: npm run start
+
+env_variables:
+  PORT: "3000"
+  STRAPI_URL: "https://strapi-website-454221.oa.r.appspot.com/"
+  STRAPI_TOKEN: "90cbb9953cbe02dcd342fe53d592689f6304e7caed5517267e3586c6f16761fc9dd43133f21c95054ccf82ad7dc738ce29781fa47e3a59231aec9393de36ea3c51d6640252391520a2849ad319eb06762623ba13d36feae40cb265ddda265298beec901631ec284778500fe8bf9b4211ee78b7886f626a0acd41a26b13ee9762"
